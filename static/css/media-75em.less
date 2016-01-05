@@ -1,0 +1,38 @@
+@media ( min-width: 69em ) {
+	body {
+		header {
+			.hero {
+				max-width: 48em;
+			}
+		}
+
+		div {
+			max-width: 75em;
+		}
+
+		div.singles section {
+			margin-left: 1em;
+
+			&:before {
+				display: none;
+			}
+
+			&:nth-child(3n+1) {
+				margin-left: 6em !important;
+
+				&:before {
+					display: block;
+					margin-left: -4em;
+				}
+			}
+		}
+
+		div.multi article {
+			margin-left: 1em;
+
+			&:nth-child(3n+2) {
+				margin-left: 6em;
+			}
+		}
+	}
+}
