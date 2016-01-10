@@ -33,7 +33,7 @@
 
 			function enqueue_styles() {
 				wp_enqueue_style( 'mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' );
-				wp_enqueue_style( 'slms_main', get_stylesheet_directory_uri() . '/css/main.css' );
+				wp_enqueue_style( 'slms_main', get_stylesheet_directory_uri() . '/static/css/main.css' );
 			}
 
 			function enqueue_scripts() {

@@ -1,13 +1,10 @@
 @media ( min-width: 48em ) {
 	body {
+		.logo {
+			position: fixed;
+		}
+
 		header {
-			display: inline-block;
-			vertical-align: top;
-
-			.logo {
-				position: fixed;
-			}
-
 			.hero {
 				left: @colw + 5em + 2em;
 				right: 0;
@@ -25,7 +22,7 @@
 			margin-bottom: 4em;
 		}
 
-		.widgets {
+		div {
 			max-width: 50em;
 
 			section {
@@ -44,7 +41,7 @@
 				}
 			}
 
-			.multi {
+			&.multi {
 				margin-bottom: 4em;
 
 				section {
@@ -66,19 +63,6 @@
 			}
 		}
 
-		&.single {
-			section {
-				margin-left: 6em;
-				margin-top: 4em;
-				margin-bottom: 0;
-				width: 36em;
-			}
-
-			#copyright {
-				display: block;
-			}
-		}
-		
 		#copyright {
 			margin-left: 6em;
 
@@ -87,11 +71,13 @@
 				display: block;
 			}
 		}
+	}
 
-		#intro {
-			margin-top: 3.8em;
-			margin-left: 6em;
-			background-color: transparent;
-		}
+
+	#intro,
+	.wrap {
+		padding-top: 3.8em;
+		margin-left: 6em;
+		background-color: transparent;
 	}
 }
