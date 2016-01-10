@@ -56,3 +56,10 @@
 				<div class="hero" style="background-image: url( <?php echo wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' )[0] ?> );"></div>
 			<?php endif ?>
 		</header>
+		<?php include slms_template_path(); ?>
+		<section id="copyright">
+			<p>&copy; <?php echo date('Y'); ?> South London Makerspace</p>
+		</section>
+		<?php wp_footer() ?>
+	</body>
+</html>

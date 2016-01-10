@@ -1,4 +1,7 @@
 <?php
+
+	require get_stylesheet_directory() . '/inc/template.php';
+
 	if ( ! class_exists( 'SLMS_Theme' ) ) {
 		class SLMS_Theme {
 			
