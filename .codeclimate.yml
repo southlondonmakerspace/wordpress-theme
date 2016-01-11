@@ -1,5 +1,10 @@
 ---
 engines:
+  phpcodesniffer:
+    enabled: true
+    config: 
+      file_extensions: "php"
+      standard: "ruleset.xml"
   csslint:
     enabled: true
   duplication:
