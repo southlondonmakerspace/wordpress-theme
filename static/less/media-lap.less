@@ -1,35 +1,31 @@
-@media ( min-width: 48em ) {
-	body {
+@media ( min-width: @breakpoint_lap ) {
 		.logo {
 			position: fixed;
 		}
 
 		header {
 			.hero {
-				left: @colw + 5em + 2em;
+				left: @colw + 5em + 1em;
 				right: 0;
 				width: auto;
 			}
 		}
 
-		section {
+		.widget {
 			display: inline-block;
 			width: @colw;
-			padding: 0;
-			margin: 0;
-			vertical-align: top;
-			box-sizing: border-box;
 			margin-bottom: 4em;
+
+			&.widget__large {
+				width: 100%;
+			}
 		}
 
-		div {
-			max-width: 50em;
+		section {
 
-			section {
-				margin-left: 1em;
+			header {
 
 				&:nth-child(2n+1) {
-					margin-left: 6em;
 
 					&:before {
 						margin-left: -4em;
@@ -41,26 +37,30 @@
 				}
 			}
 
-			&.multi {
+			&.wrap {
 				margin-bottom: 4em;
 
-				section {
+				header {
 					display: block;
 					width: @colw * 1.61;
 					margin-bottom: 0;
 				}
-
-				article {
-					display: inline-block;
-					width: @colw;
-					margin-left: 6em;
-					margin-right: 0;
-
-					&:nth-child(2n+1) {
-						margin-left: 1em;
-					}
-				}
 			}
+		}
+
+		.posts,
+		.widgets {
+			margin-left: -1em;
+		}
+
+		.post {
+			display: inline-block;
+			width: @colw;
+			margin-right: 0;
+			vertical-align: top;
+			padding-left: 1em;
+			position: relative;
+			margin-bottom: 1.5em;
 		}
 
 		#copyright {
@@ -71,13 +71,16 @@
 				display: block;
 			}
 		}
-	}
 
 
 	#intro,
 	.wrap {
-		padding-top: 3.8em;
+		padding-top: 3.5em;
 		margin-left: 6em;
 		background-color: transparent;
+	}
+
+	#intro {
+		width: @colw;
 	}
 }

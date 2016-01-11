@@ -2,16 +2,21 @@
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600,900);
 
+* {
+	box-sizing: border-box;
+}
+
 ::selection {
     color: white; 
     background: red;
 }
 
 body {
-	font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+	font-family: @fontstack_sans;
 	font-weight: 300;
 	font-size: 12pt;
 	margin: 0;
+}
 
 	a {
 		&:link, &:visited {
@@ -69,92 +74,97 @@ body {
 		}
 	}
 
-	section {
-		z-index: 10000;
+
+.widget {
+	position: relative;
+	padding-left: 1em;
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;	
+	background: #fff;
+
+	p:first-child {
+		margin-top: .3em;
+	}
+
+	h1 {
+		margin: 0;
+		line-height: 1;
+		margin-bottom: .5em;
+	}
+
+	h2 {
+		font-size: 12pt;
+		line-height: 1;
+	}
+
+	.links {
+		list-style: none;
+		font-size: 11pt;
+		padding-left: 0;
+
+		li {
+			margin-bottom: .25em;
+		}
+	}
+
+	&:before {
+		content: '';
+		display: block;
 		position: relative;
-		
-		p:first-child {
-			margin-top: .3em;
-		}
-
-		margin: 0 1em;
-		padding: 1em;
-
-		h1 {
-			margin: 0;
-			line-height: 1;
-			margin-bottom: .5em;
-		}
-
-		h2 {
-			font-size: 12pt;
-			line-height: 1;
-		}
-
-		.links {
-			list-style: none;
-			font-size: 11pt;
-			padding-left: 0;
-
-			li {
-				margin-bottom: .25em;
-			}
-		}
-
-		p {
-			margin-top: 0;
-		}
-
-		&:before {
-			content: '';
-			display: block;
-			position: relative;
-			left: -2em;
-			top: 1em;
-			width: 1em;
-			height: 1px;
-			background: red;
-		}
+		left: -6em;
+		top: 1em;
+		width: 1em;
+		height: 1px;
+		background: red;
 	}
+}
 
-	.multi {
-		article {
-			vertical-align: top;
-			margin: 0 2em 1em;
-			position: relative;
-
-			h1 {
-				font-size: 14pt;
-				font-weight: 600;
-				margin: 0;
-				max-width: 70%;
-			}
-
-			p {
-				font-size: 11pt;
-			}
-
-			span {
-				position: absolute;
-				top: 0;
-				right: 0;
-				background-color: grey;
-				color: white;
-				border-radius: .2em;
-				padding: .2em .3em;
-				font-size: 10pt;
-			}
-		}
-	}
+.h2 {
+	font-size: 14pt;
+	font-weight: 600;
+	margin: 0;
+	max-width: 70%;
 }
 
 .wrap {
 	max-width: 69em;
 }
 
+.menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		margin-bottom: 1em;
+	}
+}
+
+#intro {
+	padding-right: 1em;
+	h1 {
+		margin: 0;
+	}
+}
+
+input, button {
+	font-family: @fontstack_sans;
+	width: 100%;
+	padding: .5em;
+	font-size: 1em;
+}
+
+.btn {
+	border: none;
+    font-weight: normal;
+    color: #fff;
+    background: red;
+}
+
 @import "page";
 @import "post";
 @import "comments";
-@import "media-35em";
-@import "media-50em";
-@import "media-75em";
+@import "media-palm";
+@import "media-lap";
+@import "media-desk";
