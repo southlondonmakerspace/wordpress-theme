@@ -1,10 +1,11 @@
-<?php get_header() ?>
-	<?php if ( have_posts() ): ?>
+<?php if ( have_posts() ): ?>
+	<div class="wrap">
 		<?php while ( have_posts() ) : the_post(); ?>
-			<section>
-				<h1><?php the_title() ?></h1>
+			<article>
+				<?php the_post_thumbnail(); ?>
+				<h1 class="page--title"><?php the_title() ?></h1>
 				<?php the_content() ?>
-			</section>
+			</article>
 		<?php endwhile ?>
-	<?php endif ?>
-<?php get_footer() ?>
+	</div>
+<?php endif ?>

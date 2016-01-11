@@ -11,6 +11,8 @@
 		</section>
 	<?php endwhile ?>
 <?php endif ?>
-<div class="widgets">
-	<?php dynamic_sidebar( 'slms_home_sidebar' ) ?>
+<div class="wrap">
+	<div class="widgets">
+		<?php dynamic_sidebar( 'slms_home_sidebar' ) ?>
+	</div>
 </div>
