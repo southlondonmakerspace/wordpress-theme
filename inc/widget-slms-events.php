@@ -29,17 +29,14 @@
 					<div class="posts">
 					<?php foreach( $calendar->items as $item ) :
 
-						if ( ! in_array( $item->etag, $UIDs ) && property_exists( $item->start, 'dateTime' ) ): array_push( $UIDs, $item->etag ) ?><!-- 
+						if ( ! in_array( $item->etag, $UIDs ) && property_exists( $item->start, 'dateTime' ) ) :
+
+							array_push( $UIDs, $item->etag );
+
+							 ?><!-- 
 						 --><article class="post post__event">
 								<h1><?php echo $item->summary ?></h1>
-								<?php
-									$date = DateTime::createFromFormat( 'Y-m-d\TH:i:sP', $item->start->dateTime );
-								?>
-								<?php if ( property_exists( $item, 'originalStartTime' ) ): ?>
-									<time datetime="<?php echo $date->format( DateTime::W3C ) ?>">Every <?php echo $date->format( 'l \f\r\o\m H:i' ) ?></time>
-								<?php else: ?>
-									<time datetime="<?php echo $date->format( DateTime::W3C ) ?>"><?php echo $date->format( 'l, dS F \f\r\o\m H:i' ) ?></time>
-								<?php endif ?>
+								<?php echo $this->get_timestamp_for( $item ); ?>
 								<?php if ( strpos( $item->description, ':' ) ) : ?>
 									<?php if ( preg_match( '/^(\w+\ ?\w*):\ (.*)$/sm', $item->description, $results ) ) :
 										$tag = $results[1];
@@ -56,6 +53,23 @@
 				</section>
 			<?php
 			wp_reset_postdata();
+		}
+
+		public function get_timestamp_for( $item ) {
+
+			$date = date_create_from_format( 'Y-m-d\TH:i:sP', $item->start->dateTime );
+
+			if ( property_exists( $item, 'originalStartTime' ) ) {
+				return sprintf('<time datetime="%s">Every %s</time>',
+					$date->format( DateTime::W3C ),
+					$date->format( 'l \f\r\o\m H:i' )
+				);
+			}
+
+			return sprintf('<time datetime="%s">%s</time>',
+				$date->format( DateTime::W3C ),
+				$date->format( 'l, dS F \f\r\o\m H:i')
+			);
 		}
 
 		public function form( $instance ) {
