@@ -6,16 +6,25 @@
 			$this->widget_options['before_widget'] = 'test';
 		}
 
-		public function widget( $args, $instance ) {
+		public function get_cached_calander() {
 			$cache_file = 'google-calendar.cache';
+
 			if ( ! file_exists( $cache_file ) || time() - filemtime( $cache_file ) > 1 ) {
-					$url = 'https://www.googleapis.com/calendar/v3/calendars/6hnjp743rq7omi2qfr3fa873ug%40group.calendar.google.com/events?singleEvents=true&orderBy=startTime&timeMin=' . date( 'Y-m-d\TH:i:s' ) . 'Z&key=AIzaSyDpWNCjMO3l8vHOuRQQMiLRdZo3jWpkaNU';
-					$cache = file_get_contents( $url );
-					file_put_contents( $cache_file, $cache );
-			}
+				$url = 'https://www.googleapis.com/calendar/v3/calendars/6hnjp743rq7omi2qfr3fa873ug%40group.calendar.google.com/events?singleEvents=true&orderBy=startTime&timeMin=' . date( 'Y-m-d\TH:i:s' ) . 'Z&key=AIzaSyDpWNCjMO3l8vHOuRQQMiLRdZo3jWpkaNU';
+				$cache = file_get_contents( $url );
+				file_put_contents( $cache_file, $cache );
+
+				return json_decode( $cache );
+			} 
 
 			$cache = file_get_contents( $cache_file );
-			$calendar = json_decode( $cache );
+
+			return json_decode( $cache );
+		}
+
+		public function widget( $args, $instance ) {
+
+			$calendar = $this->get_cached_calander();
 			$UIDs = array();
 			date_default_timezone_set( get_option( 'timezone_string' ) );
 			?>
@@ -28,7 +37,6 @@
 					</header>
 					<div class="posts">
 					<?php foreach( $calendar->items as $item ) :
-
 						if ( ! in_array( $item->etag, $UIDs ) && property_exists( $item->start, 'dateTime' ) ) :
 
 							array_push( $UIDs, $item->etag );
@@ -52,7 +60,6 @@
 					</div><!-- .posts -->
 				</section>
 			<?php
-			wp_reset_postdata();
 		}
 
 		public function get_timestamp_for( $item ) {
