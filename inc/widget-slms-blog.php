@@ -7,24 +7,39 @@
 		}
 
 		public function widget( $args, $instance ) {
-			$query = new WP_Query( 'posts_per_page=' . ( is_numeric( intval( $instance['posts'] ) ) ? intval( $instance['posts'] ) : 3 ) );
+
+			$number_of_posts = is_numeric( intval( $instance['posts'] ) ) ? intval( $instance['posts'] ) : 3;
+
+			$query = new WP_Query( array(
+				'posts_per_page' => $number_of_posts
+			) );
+
 			?>
 				<section class="widget widget__large">
 					<header>
-						<?php echo $args['before_title'] . apply_filters( 'widget_title', 'Blog' ) . $args['after_title'] ?>
+						<?php echo sprintf(
+								'%s<a href="%s">%s</a>%s',
+								$args['before_title'],
+								get_permalink( get_option('page_for_posts') ),
+								apply_filters( 'widget_title', 'Blog' ),
+								$args['after_title']
+							); ?>
 						<?php if ( ! empty( $instance['text'] ) ): ?>
-							<p><?php echo nl2br( $instance['text'] ) ?></p>
+							<p><?php echo nl2br( $instance['text'] ); ?></p>
 						<?php endif ?>
 					</header>
 					<div class="posts">
-					<?php while( $query->have_posts() ): $query->the_post() ?><!-- 
+					<?php while( $query->have_posts() ) :
+						$query->the_post();
+
+						if ( $query->current_post < $number_of_posts ) : ?><!-- 
 					 --><article <?php post_class(); ?>>
 							<h1><?php the_title() ?></h1>
 							<time datetime="<?php echo get_the_date('c') ?>"><?php the_date() ?></time>
 							<?php the_excerpt() ?>
 							<a href="<?php the_permalink() ?>">Read more...</a>
 						</article><!-- 
-				 --><?php endwhile ?>
+						--><?php endif; ?><?php endwhile ?>
 					</div>
 				</section>
 			<?php
@@ -32,8 +47,8 @@
 		}
 
 		public function form( $instance ) {
-			?>
-				<p>
+			
+			 ?><p>
 					<label for="<?php echo $this->get_field_id( 'posts' ) ?>">Posts:</label>
 					<input type="number" min="1" max="12" id="<?php echo $this->get_field_id( 'posts' ) ?>" name="<?php echo $this->get_field_name( 'posts' ) ?>" value="<?php echo $instance['posts'] ?>">
 				</p>
