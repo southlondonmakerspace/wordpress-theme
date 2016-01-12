@@ -1,13 +1,37 @@
-.post__event {
+.post {
+	header {
+		margin-bottom: 1em;
+	}
+
+	.h2 {
+		a {
+			color: currentColor;
+		}
+	}
+
 	p {
 		font-size: 11pt;
 	}
+}
+
+.post--thumbnail {
+	float: right;
+	outline: 1px solid red;
+	width: calc(~"100% - "@colw);
+	margin: -3.5em 0 1.5em 1em;
+}
+
+.post__event {
 
 	h1 {
 		font-size: 14pt;
 		font-weight: 600;
 		margin: 0;
 		max-width: 70%;
+
+		a {
+			color: currentColor;
+		}
 	}
 
 	span {

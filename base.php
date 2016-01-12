@@ -52,9 +52,7 @@
 			<a href="<?php bloginfo( 'url' ) ?>" class="logo"><?php bloginfo( 'name' ) ?></a>
 			<?php if ( is_front_page() ): ?>
 				<div class="hero" id="map"></div>
-			<?php elseif ( has_post_thumbnail() ): ?>
-				<div class="hero" style="background-image: url( <?php echo wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' )[0] ?> );"></div>
-			<?php endif ?>
+			<?php endif; ?>
 		</header>
 		<?php include slms_template_path(); ?>
 		<section id="copyright">
