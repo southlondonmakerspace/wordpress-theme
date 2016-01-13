@@ -8,10 +8,12 @@
 
 		public function widget( $args, $instance ) {
 
-			$number_of_posts = is_numeric( intval( $instance['posts'] ) ) ? intval( $instance['posts'] ) : 3;
+			$number_of_posts = isset( $instance['posts'] ) && is_numeric( intval( $instance['posts'] ) ) ? intval( $instance['posts'] ) : 3;
 
 			$query = new WP_Query( array(
-				'posts_per_page' => $number_of_posts
+				'posts_per_page' => is_single( get_queried_object_id() ) ? $number_of_posts + 1 : $number_of_posts,
+				'ignore_sticky_posts'=> is_sticky( get_queried_object_ID() ),
+				'post_not_in' => array( get_queried_object_id() )
 			) );
 
 			?>
@@ -34,8 +36,10 @@
 
 						if ( $query->current_post < $number_of_posts ) : ?><!-- 
 					 --><article <?php post_class(); ?>>
-							<h1><?php the_title() ?></h1>
-							<time datetime="<?php echo get_the_date('c') ?>"><?php the_date() ?></time>
+							<header>
+								<h1><?php the_title() ?></h1>
+								<time datetime="<?php echo get_the_date('c') ?>"><?php the_date() ?></time>
+							</header>
 							<?php the_excerpt() ?>
 							<a href="<?php the_permalink() ?>">Read more...</a>
 						</article><!-- 

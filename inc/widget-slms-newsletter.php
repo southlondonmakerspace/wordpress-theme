@@ -35,10 +35,12 @@
 		}
 
 		public function form( $instance ) {
+
+			$text = isset( $instance['text']) ? esc_attr( $instance['text'] ) : '';
 			?>
 				<p>
 					<label for="<?php echo $this->get_field_id( 'text' ) ?>">Text:</label><br />
-					<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo esc_attr( $instance['text'] ) ?></textarea>
+					<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo $text; ?></textarea>
 				</p>
 			<?php
 		}

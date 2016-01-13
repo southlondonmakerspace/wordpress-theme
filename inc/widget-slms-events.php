@@ -43,8 +43,10 @@
 
 							 ?><!-- 
 						 --><article class="post post__event">
-								<h1><?php echo $item->summary ?></h1>
-								<?php echo $this->get_timestamp_for( $item ); ?>
+								<header>
+									<h1><?php echo $item->summary ?></h1>
+									<?php echo $this->get_timestamp_for( $item ); ?>
+								</header><!-- /header -->
 								<?php if ( strpos( $item->description, ':' ) ) : ?>
 									<?php if ( preg_match( '/^(\w+\ ?\w*):\ (.*)$/sm', $item->description, $results ) ) :
 										$tag = $results[1];

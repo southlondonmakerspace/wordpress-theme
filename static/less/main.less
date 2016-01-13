@@ -12,6 +12,7 @@
 }
 
 body {
+	background: #fff;
 	font-family: @fontstack_sans;
 	font-weight: 300;
 	font-size: 12pt;
@@ -63,6 +64,7 @@ body {
 			width: 100%;
 			background-size: cover;
 			background-position: center;
+			z-index: 1;
 
 			&#map {
 				height: 22em;
@@ -83,6 +85,19 @@ body {
 		}
 	}
 
+.posts,
+.widgets {
+	margin-left: -1em;
+
+	.post {
+		display: inline-block;
+		margin-right: 0;
+		vertical-align: top;
+		padding-left: 1em;
+		position: relative;
+		margin-bottom: 1.5em;
+	}
+}
 
 .widget {
 	position: relative;
@@ -100,6 +115,11 @@ body {
 		margin: 0;
 		line-height: 1;
 		margin-bottom: .5em;
+
+		a {
+			color: currentColor;
+			font-weight: inherit;
+		}
 	}
 
 	h2 {
@@ -139,6 +159,21 @@ body {
 	max-width: 69em;
 }
 
+	@media screen and (max-width: @breakpoint_lap ) {
+		.wrap,
+		#intro {
+			background: #fff;
+			z-index: 2;
+			position: relative;
+			margin: 0 1em;
+			padding: 1em;
+		}
+
+		#intro {
+			margin-top: 6em;
+		}
+	}
+
 .menu {
 	list-style: none;
 	padding: 0;
@@ -176,3 +211,5 @@ input, button {
 @import "media-palm";
 @import "media-lap";
 @import "media-desk";
+
+@import "admin";

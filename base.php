@@ -55,7 +55,7 @@
 			<?php endif; ?>
 		</header>
 		<?php include slms_template_path(); ?>
-		<section id="copyright">
+		<section class="wrap">
 			<p>&copy; <?php echo date('Y'); ?> South London Makerspace</p>
 		</section>
 		<?php wp_footer() ?>

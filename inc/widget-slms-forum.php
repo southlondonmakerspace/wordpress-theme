@@ -8,11 +8,14 @@
 		public function widget( $args, $instance ) {
 			echo $args['before_widget'];
 			echo $args['before_title'] . apply_filters( 'widget_title', 'Forum' ). $args['after_title'];
+
 			if ( ! empty( $instance['text'] ) ) echo '<p>' . nl2br( $instance['text'] ) . '</p>';
 			include_once( ABSPATH . WPINC . '/rss.php' );
+
 			$rss = fetch_rss( 'https://discourse.southlondonmakerspace.org/latest.rss' );
 			$items = array_slice( $rss->items, 0, $instance['items'] );
-			?>
+
+				?>
 				<a href="http://discourse.southlondonmakerspace.org/">Visit our forum</a>
 				<h2>Latest posts</h2>
 				<ul class="links">
@@ -25,6 +28,8 @@
 		}
 
 		public function form( $instance ) {
+
+			$text = isset($instance['text']) ? $instance['text'] : '';
 			?>
 				<p>
 					<label for="<?php echo $this->get_field_id( 'items' ) ?>">Items:</label>
@@ -32,7 +37,7 @@
 				</p>
 				<p>
 					<label for="<?php echo $this->get_field_id( 'text' ) ?>">Text:</label><br />
-					<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo esc_attr( $instance['text'] ) ?></textarea>
+					<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo esc_attr( $text ); ?></textarea>
 				</p>
 			<?php
 		}

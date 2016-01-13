@@ -1,76 +1,68 @@
 @media ( min-width: @breakpoint_lap ) {
-		.logo {
-			position: fixed;
+	.logo {
+		position: fixed;
+	}
+
+	header {
+		.hero {
+			left: @colw + 5em + 1em;
+			right: 0;
+			width: auto;
 		}
+	}
+
+	.widget {
+		display: inline-block;
+		width: @colw;
+		max-width: @colw;
+		margin-bottom: 4em;
+
+		&.widget__large {
+			width: 100%;
+			max-width: 100%;
+		}
+	}
+
+	section {
 
 		header {
-			.hero {
-				left: @colw + 5em + 1em;
-				right: 0;
-				width: auto;
+
+			&:nth-child(2n+1) {
+
+				&:before {
+					margin-left: -4em;
+				}
+			}
+
+			&:nth-child(2n+0):before {
+				display: none;
 			}
 		}
 
-		.widget {
-			display: inline-block;
-			width: @colw;
+		&.wrap {
 			margin-bottom: 4em;
 
-			&.widget__large {
-				width: 100%;
-			}
-		}
-
-		section {
-
 			header {
-
-				&:nth-child(2n+1) {
-
-					&:before {
-						margin-left: -4em;
-					}
-				}
-
-				&:nth-child(2n+0):before {
-					display: none;
-				}
-			}
-
-			&.wrap {
-				margin-bottom: 4em;
-
-				header {
-					display: block;
-					width: @colw * 1.61;
-					margin-bottom: 0;
-				}
-			}
-		}
-
-		.posts,
-		.widgets {
-			margin-left: -1em;
-		}
-
-		.post {
-			display: inline-block;
-			width: @colw;
-			margin-right: 0;
-			vertical-align: top;
-			padding-left: 1em;
-			position: relative;
-			margin-bottom: 1.5em;
-		}
-
-		#copyright {
-			margin-left: 6em;
-
-			&:before {
-				margin-left: -4em;
 				display: block;
+				width: @colw * 1.61;
+				margin-bottom: 0;
 			}
 		}
+	}
+
+	.posts .post {
+		width: 33.3%;
+		max-width: @colw;
+	}
+
+	#copyright {
+		margin-left: 6em;
+
+		&:before {
+			margin-left: -4em;
+			display: block;
+		}
+	}
 
 
 	#intro,
@@ -78,6 +70,10 @@
 		padding-top: 3.5em;
 		margin-left: 6em;
 		background-color: transparent;
+	}
+
+	.wrap {
+		width: 79%;
 	}
 
 	#intro {
