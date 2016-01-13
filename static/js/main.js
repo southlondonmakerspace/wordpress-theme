@@ -26,9 +26,9 @@ jQuery( document ).ready( function() {
 			coordinates: [ -0.100906, 51.451915 ]
 		},
 		properties: {
-			'title': 'South London Makerspace',
-			'marker-size': 'small',
-			'marker-color': '#ff0000',
+			'title'  	  : 'South London Makerspace',
+			'marker-size' : 'small',
+			'marker-color': '#ff0000'
 		}
 	} ).addTo( map );
 } );

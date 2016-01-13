@@ -1,4 +1,5 @@
 <?php 
+
 	class slms_forum extends WP_Widget {
 		public function __construct() {
 			parent::__construct( 'slms_forum', 'Forum' );
@@ -36,7 +37,7 @@
 			<?php
 		}
 		
-		public function update( $new_instance, $old_instance ) {
+		public function update( $new_instance ) {
 			$instance = array();
 			$instance['text'] = ( ! empty( $new_instance['text'] ) ) ? strip_tags( $new_instance['text'] ) : '';
 
