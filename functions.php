@@ -13,7 +13,7 @@
 		class SLMS_Theme {
 			
 			function __construct() {
-				add_theme_support( 'post-thumbnails' ); 
+				add_theme_support( 'post-thumbnails' );
 
 				add_action( 'init', array( &$this, 'register_sidebars' ) );
 				add_action( 'init', array( &$this, 'register_nav_menus' ) );

@@ -49,14 +49,14 @@
 			<div class="browserupgrade"></div>
 		<![endif]-->
 		<header>
-			<a href="<?php bloginfo( 'url' ) ?>" class="logo"><?php bloginfo( 'name' ) ?></a>
-			<?php if ( is_front_page() ): ?>
+			<a href="<?php bloginfo( 'url' ); ?>" class="logo"><?php bloginfo( 'name' ) ?></a>
+			<?php if ( is_front_page() ) : ?>
 				<div class="hero" id="map"></div>
 			<?php endif; ?>
 		</header>
 		<?php include slms_template_path(); ?>
 		<section class="wrap">
-			<p>&copy; <?php echo date('Y'); ?> South London Makerspace</p>
+			<p>&copy; <?php echo date( 'Y' ); ?> South London Makerspace</p>
 		</section>
 		<?php wp_footer() ?>
 	</body>
