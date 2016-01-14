@@ -1,10 +1,10 @@
 <?php if ( have_posts() ): ?>
 	<div class="wrap">
 		<?php while ( have_posts() ) : the_post(); ?>
-			<article <?php post_class('article'); ?>>
-				<?php if ( has_post_thumbnail() ): ?>
+			<article <?php post_class( 'article' ); ?>>
+				<?php if ( has_post_thumbnail() ) : ?>
 					<figure class="post--thumbnail">
-						<?php the_post_thumbnail('large'); $background_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'large'); ?>
+						<?php the_post_thumbnail( 'large' ); $background_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' ); ?>
 						<style>
 							@media screen and (max-width: 48em) {
 								body {
@@ -13,15 +13,15 @@
 								}
 							}
 						</style>
-						<?php $attachment = get_post( get_post_thumbnail_id() );
-
-							echo apply_filters('the_content', $attachment->post_excerpt );
+						<?php
+							$attachment = get_post( get_post_thumbnail_id() );
+							echo apply_filters( 'the_content', $attachment->post_excerpt );
 						 ?>
 					</figure>
 				<?php endif ?>
 				<header>
-					<h1 class="page--title"><?php the_title() ?><?php edit_post_link('Edit'); ?></h1>
-					<time datetime="<?php echo get_the_date('c') ?>"><?php the_date() ?></time>
+					<h1 class="page--title"><?php the_title(); ?><?php edit_post_link( 'Edit' ); ?></h1>
+					<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php the_date(); ?></time>
 				</header>
 				<?php the_content() ?>
 			</article>
@@ -30,4 +30,4 @@
 			<?php dynamic_sidebar( 'slms_single_post' ); ?>
 		</div>
 	</div>
-<?php endif ?>
+<?php endif; ?>
