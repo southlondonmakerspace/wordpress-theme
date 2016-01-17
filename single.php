@@ -24,6 +24,15 @@
 					<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php the_date(); ?></time>
 				</header>
 				<?php the_content() ?>
+
+				<footer>
+<?php 
+
+// If comments are open or we have at least one comment, load up the comment template.
+if ( comments_open() || get_comments_number() ) :
+	comments_template();
+endif; ?>
+				</footer>
 			</article>
 		<?php endwhile ?>
 		<div class="widgets">
