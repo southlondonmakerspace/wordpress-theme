@@ -136,18 +136,21 @@ body {
 			margin-bottom: .25em;
 		}
 	}
-
-	&:before {
-		content: '';
-		display: block;
-		position: relative;
-		left: -6em;
-		top: 1em;
-		width: 1em;
-		height: 1px;
-		background: red;
-	}
 }
+
+	.widget:first-child,
+	.widget__large {
+		&:before {
+			content: '';
+			display: block;
+			position: relative;
+			left: -6em;
+			top: 1em;
+			width: 1em;
+			height: 1px;
+			background: red;
+		}
+	}
 
 .h2 {
 	font-size: 14pt;

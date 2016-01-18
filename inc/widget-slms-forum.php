@@ -19,7 +19,7 @@ class slms_forum extends WP_Widget {
 			<a href="http://discourse.southlondonmakerspace.org/">Visit our forum</a>
 			<h2>Latest posts</h2>
 			<ul class="links">
-				<?php foreach( $items as $item ): ?>
+				<?php foreach ( $items as $item ) : ?>
 					<li><a href="<?php echo $item['link'] ?>"><?php echo $item['title'] ?></a></li>
 				<?php endforeach ?>
 			</ul>
