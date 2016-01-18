@@ -8,9 +8,13 @@ npm install
 gulp watch
 ```
 
+### Deployment
+
+Any changes committed to the `master` branch will be automatically uploaded to the development preview at [slms.wpengine.com](slms.wpengine.com)
+
 ### Discourse Comments
 
-As discourse is the primary forum for discussions we use their plugin to sync comments through from the Blog category. These are settings we've got within WordPress.
+As discourse is the primary forum for discussions we use their [wp-discourse](https://github.com/discourse/wp-discourse) plugin to sync comments through from the Blog category. These are settings we've got within WordPress.
 
 ```html
 <li class="comment even thread-even depth-1">
