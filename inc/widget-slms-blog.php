@@ -37,10 +37,10 @@ class slms_blog extends WP_Widget {
 					if ( $query->current_post < $number_of_posts ) : ?><!-- 
 				 --><article <?php post_class(); ?>>
 						<header>
-							<h1><?php the_title() ?></h1>
-							<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php the_date() ?></time>
+							<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+							<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php the_date(); ?></time>
 						</header>
-						<?php the_excerpt() ?>
+						<?php the_excerpt(); ?>
 						<a href="<?php the_permalink(); ?>">Read more...</a>
 					</article><!-- 
 					--><?php endif; ?><?php endwhile ?>
@@ -53,12 +53,12 @@ class slms_blog extends WP_Widget {
 	public function form( $instance ) {
 
 		 ?><p>
-				<label for="<?php echo $this->get_field_id( 'posts' ) ?>">Posts:</label>
-				<input type="number" min="1" max="12" id="<?php echo $this->get_field_id( 'posts' ) ?>" name="<?php echo $this->get_field_name( 'posts' ) ?>" value="<?php echo $instance['posts'] ?>">
+				<label for="<?php echo $this->get_field_id( 'posts' ); ?>">Posts:</label>
+				<input type="number" min="1" max="12" id="<?php echo $this->get_field_id( 'posts' ); ?>" name="<?php echo $this->get_field_name( 'posts' ); ?>" value="<?php echo $instance['posts'] ?>">
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'text' ) ?>">Text:</label><br />
-				<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo esc_attr( $instance['text'] ) ?></textarea>
+				<label for="<?php echo $this->get_field_id( 'text' ); ?>">Text:</label><br />
+				<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_attr( $instance['text'] ); ?></textarea>
 			</p>
 		<?php
 	}
