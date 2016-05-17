@@ -10,7 +10,7 @@ gulp watch
 
 ### Deployment
 
-Any changes committed to the `master` branch will be automatically uploaded to the development preview at [slms.wpengine.com](slms.wpengine.com)
+Any changes committed to the `master` branch will be automatically uploaded to the development preview at [slms.wpengine.com](http://slms.wpengine.com)
 
 ### Discourse Comments
 
