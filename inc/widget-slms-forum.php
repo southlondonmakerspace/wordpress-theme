@@ -1,6 +1,7 @@
 <?php
 
 class slms_forum extends WP_Widget {
+
 	public function __construct() {
 		parent::__construct( 'slms_forum', 'Forum' );
 	}
@@ -9,27 +10,36 @@ class slms_forum extends WP_Widget {
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', 'Forum' ). $args['after_title'];
 
-		if ( ! empty( $instance['text'] ) ) echo '<p>' . nl2br( $instance['text'] ) . '</p>';
-		include_once( ABSPATH . WPINC . '/rss.php' );
+		if ( isset( $instance['text'] ) )	{
+			echo '<p>' . nl2br( $instance['text'] ) . '</p>';
+		}
 
-		$rss = fetch_rss( 'https://discourse.southlondonmakerspace.org/latest.rss' );
-		$items = array_slice( $rss->items, 0, $instance['items'] );
+		include_once( ABSPATH . WPINC . '/class-simplepie.php' );
+		$rss = new Simplepie();
+
+		$rss->set_feed_url( 'https://discourse.southlondonmakerspace.org/latest.rss' );
+
+		$rss->init();
+
+		$items = $rss->get_items(0, 3);
 
 			?>
-			<a href="http://discourse.southlondonmakerspace.org/">Visit our forum</a>
+			<a href="http://discourse.southlondonmakerspace.org/">Visit our forums</a>
 			<h2>Latest posts</h2>
 			<ul class="links">
 				<?php foreach ( $items as $item ) : ?>
-					<li><a href="<?php echo $item['link'] ?>"><?php echo $item['title'] ?></a></li>
+					<li><a href="<?php echo $item->get_link() ?>"><?php echo $item->get_title(); ?></a></li>
 				<?php endforeach ?>
 			</ul>
 		<?php
+
 		echo $args['after_widget'];
 	}
 
 	public function form( $instance ) {
 
 		$text = isset( $instance['text'] ) ? $instance['text'] : '';
+
 		?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'items' ) ?>">Items:</label>
@@ -44,7 +54,7 @@ class slms_forum extends WP_Widget {
 
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
-		$instance['text'] = ( ! empty( $new_instance['text'] ) ) ? strip_tags( $new_instance['text'] ) : '';
+		$instance['text'] = isset( $new_instance['text'] ) ? strip_tags( $new_instance['text'] ) : '';
 
 		$instance['items'] = 3;
 		if ( ! empty( $new_instance['items'] ) && is_numeric( $new_instance['items'] ) && $new_instance['items'] >= 3 && $new_instance['items'] <= 10 )
