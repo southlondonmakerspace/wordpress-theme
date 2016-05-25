@@ -15,6 +15,8 @@ jQuery( document ).ready( function() {
 		center: normalCenter
 	} );
 
+        map.scrollWheelZoom.disable();
+
 	handleSize();
 
 	new L.Control.Zoom( { position: 'topright' } ).addTo( map );
