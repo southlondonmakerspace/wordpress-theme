@@ -15,7 +15,7 @@ class slms_newsletter extends WP_Widget {
 
 		?>
 			<div id="mc_embed_signup">
-				<form action="//southlondonmakerspace.us3.list-manage.com/subscribe/post?u=851fda98e1d7951586754129f&amp;id=c0f84d3985" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+				<form action="//southlondonmakerspace.us3.list-manage.com/subscribe/post?u=851fda98e1d7951586754129f&amp;id=38bef3c0a3" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 					<div id="mc_embed_signup_scroll">
 						<div class="mc-field-group">
 							<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
