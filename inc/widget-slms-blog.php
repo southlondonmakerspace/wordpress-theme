@@ -34,15 +34,15 @@ class slms_blog extends WP_Widget {
 				<?php while ( $query->have_posts() ) :
 					$query->the_post();
 
-					if ( $query->current_post < $number_of_posts ) : ?><!-- 
+					if ( $query->current_post < $number_of_posts ) : ?><!--
 				 --><article <?php post_class(); ?>>
 						<header>
 							<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
 							<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php the_date(); ?></time>
 						</header>
 						<?php the_excerpt(); ?>
-						<a href="<?php the_permalink(); ?>">Read more...</a>
-					</article><!-- 
+						<a href="<?php the_permalink(); ?>">Read more</a>
+					</article><!--
 					--><?php endif; ?><?php endwhile ?>
 				</div>
 			</section>

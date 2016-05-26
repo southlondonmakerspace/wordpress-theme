@@ -2,8 +2,12 @@ var map;
 var resizeTimer;
 var normalCenter, wideCenter;
 
-
 jQuery( document ).ready( function() {
+
+	if (!document.getElementById('map')) {
+		return;
+	}
+
 	L.mapbox.accessToken = 'pk.eyJ1Ijoic291dGhsb25kb25tYWtlcnNwYWNlIiwiYSI6ImNpZXQxY3FmeDAwMTZ0Y2tzb2UwMzV1dDgifQ.5YDoc_mkFc0wcrhPJLWE3Q';
 
 	normalCenter = L.latLng( 51.45192095662713, -0.10089397430419922 );
@@ -15,12 +19,12 @@ jQuery( document ).ready( function() {
 		center: normalCenter
 	} );
 
-        map.scrollWheelZoom.disable();
+	map.scrollWheelZoom.disable();
 
 	handleSize();
 
 	new L.Control.Zoom( { position: 'topright' } ).addTo( map );
-	
+
 	new L.mapbox.featureLayer({
 		type: 'Feature',
 		geometry: {

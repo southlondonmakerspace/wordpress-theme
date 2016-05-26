@@ -51,8 +51,12 @@
 	}
 
 	.posts .post {
-		width: 33.3%;
+		width: 50%;
 		max-width: @colw;
+
+		@media ( min-width: 960px ) {
+			width: 33.3%;
+		}
 	}
 
 	#copyright {

@@ -1,7 +1,7 @@
 <?php if ( have_posts() ): ?>
 	<div class="wrap">
 		<?php while ( have_posts() ) : the_post(); ?>
-			<article>
+			<article <?php post_class( 'post' ); ?>>
 				<?php the_post_thumbnail(); ?>
 				<h1 class="page--title"><?php the_title() ?></h1>
 				<?php the_content() ?>

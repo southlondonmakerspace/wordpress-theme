@@ -8,14 +8,14 @@ class slms_events extends WP_Widget {
 
 	public function get_cached_calander() {
 		$cache_file = 'google-calendar.cache';
+		$url = 'https://www.googleapis.com/calendar/v3/calendars/6hnjp743rq7omi2qfr3fa873ug%40group.calendar.google.com/events?singleEvents=true&orderBy=startTime&timeMin=' . date( 'Y-m-d\TH:i:s' ) . 'Z&key=AIzaSyDpWNCjMO3l8vHOuRQQMiLRdZo3jWpkaNU';
 
 		if ( ! file_exists( $cache_file ) || time() - filemtime( $cache_file ) > 1 ) {
-			$url = 'https://www.googleapis.com/calendar/v3/calendars/6hnjp743rq7omi2qfr3fa873ug%40group.calendar.google.com/events?singleEvents=true&orderBy=startTime&timeMin=' . date( 'Y-m-d\TH:i:s' ) . 'Z&key=AIzaSyDpWNCjMO3l8vHOuRQQMiLRdZo3jWpkaNU';
 			$cache = file_get_contents( $url );
 			file_put_contents( $cache_file, $cache );
 
 			return json_decode( $cache );
-		} 
+		}
 
 		$cache = file_get_contents( $cache_file );
 
@@ -26,8 +26,7 @@ class slms_events extends WP_Widget {
 
 		$calendar = $this->get_cached_calander();
 		$UIDs = array();
-		date_default_timezone_set( get_option( 'timezone_string' ) );
-		?>
+		date_default_timezone_set( get_option( 'timezone_string' ) ); ?>
 			<section class="widget widget__large">
 				<header>
 					<?php echo $args['before_title'] . apply_filters( 'widget_title', 'Events' ) . $args['after_title'] ?>
@@ -37,26 +36,28 @@ class slms_events extends WP_Widget {
 				</header>
 				<div class="posts">
 				<?php foreach( $calendar->items as $item ) :
-					if ( ! in_array( $item->etag, $UIDs ) && property_exists( $item->start, 'dateTime' ) ) :
+
+					if ( ! in_array( $item->etag, $UIDs ) && count($UIDs) < $instance['events'] ) :
 
 						array_push( $UIDs, $item->etag );
 
-						 ?><!-- 
+						 ?><!--
 					 --><article class="post post__event">
 							<header>
+								<?php if ( strpos( $item->description, ':' ) ) : ?>
+									<?php if ( preg_match( '/^(\w+\ ?\w*):\ (.*)$/sm', $item->description, $results ) ) :
+										$tag = $results[1];
+										$description = $results[2];
+									?>
+									<span><?php echo $tag ?></span>
+									<?php endif; ?>
+								<?php endif ?>
+
 								<h1><?php echo $item->summary ?></h1>
 								<?php echo $this->get_timestamp_for( $item ); ?>
 							</header><!-- /header -->
-							<?php if ( strpos( $item->description, ':' ) ) : ?>
-								<?php if ( preg_match( '/^(\w+\ ?\w*):\ (.*)$/sm', $item->description, $results ) ) :
-									$tag = $results[1];
-									$description = $results[2];
-								?>
-								<span><?php echo $tag ?></span>
-								<?php endif; ?>
-							<?php endif ?>
 							<p><?php echo nl2br( empty( $description ) ? $item->description : $description ); ?></p>
-						</article><!-- 
+						</article><!--
 					 --><?php endif;
 				endforeach ?>
 				</div><!-- .posts -->
@@ -65,6 +66,10 @@ class slms_events extends WP_Widget {
 	}
 
 	public function get_timestamp_for( $item ) {
+
+		if ( false === property_exists($item->start,'dateTime')) {
+			return;
+		}
 
 		$date = date_create_from_format( 'Y-m-d\TH:i:sP', $item->start->dateTime );
 
@@ -93,13 +98,13 @@ class slms_events extends WP_Widget {
 			</p>
 		<?php
 	}
-	
+
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 		$instance['text'] = ( ! empty( $new_instance['text'] ) ) ? strip_tags( $new_instance['text'] ) : '';
 
 		$instance['events'] = 3;
-		
+
 		if ( ! empty( $new_instance['events'] ) && is_numeric( $new_instance['events'] ) && $new_instance['events'] >= 1 && $new_instance['events'] <= 12 )
 			$instance['events'] = $new_instance['events'];
 
