@@ -20,13 +20,13 @@
 					</figure>
 				<?php endif ?>
 				<header>
-					<h1 class="page--title"><?php the_title(); ?><?php edit_post_link( 'Edit' ); ?></h1>
-					<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php the_date(); ?></time>
+					<h1 class="page--title"><?php the_title(); ?></h1>
+					<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php the_date(); ?></time><?php edit_post_link( 'Edit' ); ?>
 				</header>
 				<?php the_content() ?>
 
 				<footer>
-				<?php 
+				<?php
 					// If comments are open or we have at least one comment, load up the comment template.
 					if ( comments_open() || get_comments_number() ) :
 						comments_template();
