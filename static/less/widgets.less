@@ -1,0 +1,122 @@
+
+.widget {
+	position: relative;
+	padding-left: 1em;
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
+	background: #fff;
+	margin-bottom: 2em;
+
+	@media screen and (min-width: @breakpoint_lap) {
+		width: 50%;
+	}
+
+	@media screen and ( min-width: @breakpoint_desk ) {
+		width: 33.3%;
+		max-width: @colw;
+		margin-bottom: 4em;
+	}
+
+	&.widget__large {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	p:first-child {
+		margin-top: .3em;
+	}
+
+	h1 {
+		line-height: 1.3;
+		margin: 0 0 .25em;
+
+		a {
+			color: currentColor;
+		}
+	}
+
+	h2 {
+		font-size: 12pt;
+		line-height: 1.3;
+	}
+
+	.links {
+		list-style: none;
+		padding-left: 0;
+	}
+
+	header {
+		margin-bottom: 1.5em;
+
+		@media screen and (min-width: @breakpoint_desk ) {
+			margin-bottom: 3em;
+		}
+	}
+}
+
+	.ruled,
+	.widget:first-child,
+	.widget__large {
+		&:before {
+			content: '';
+			display: block;
+			position: relative;
+			left: -6em;
+			top: 1em;
+			width: 1em;
+			height: 1px;
+			background: red;
+		}
+
+	}
+
+	@media screen and (min-width: @breakpoint_palm ) {
+		@media (max-width: @breakpoint_desk) {
+			.widget:nth-child(odd) {
+				&:before {
+					content: "";
+					display: block;
+					position: relative;
+					left: -6em;
+					top: 1em;
+					width: 1em;
+					height: 1px;
+					background: red;
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: @breakpoint_lap_max ) {
+		.widget,
+		.ruled {
+			&:before {
+				content: '';
+				display: block;
+				position: relative;
+				left: -2.4em;
+				top: 1em;
+				width: 1em;
+				height: 1px;
+				background: red;
+			}
+		}
+	}
+
+	.widget_slms_newsletter {
+
+		input {
+			border: 1px solid #ccc;
+		}
+
+		#mc_embed_signup_scroll {
+			.mce_inline_error {
+				font-weight: 600;
+			}
+		}
+
+		.mc-field-group {
+			margin-bottom: 1em;
+		}
+	}

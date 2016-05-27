@@ -1,4 +1,4 @@
-@media ( min-width: @breakpoint_lap ) {
+@media screen and ( min-width: @breakpoint_lap ) {
 	.logo {
 		position: fixed;
 	}
@@ -8,18 +8,6 @@
 			left: @colw + 5em + 1em;
 			right: 0;
 			width: auto;
-		}
-	}
-
-	.widget {
-		display: inline-block;
-		width: @colw;
-		max-width: @colw;
-		margin-bottom: 4em;
-
-		&.widget__large {
-			width: 100%;
-			max-width: 100%;
 		}
 	}
 
