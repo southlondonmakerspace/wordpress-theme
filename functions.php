@@ -11,7 +11,7 @@
 
 	if ( ! class_exists( 'SLMS_Theme' ) ) {
 		class SLMS_Theme {
-			
+
 			function __construct() {
 				add_theme_support( 'post-thumbnails' );
 
@@ -57,8 +57,7 @@
 
 			function enqueue_scripts() {
 				wp_register_script( 'mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js' );
-				wp_enqueue_script( 'slms_main', get_stylesheet_directory_uri() . '/static/js/main.js', array( 'jquery' ) );
-				wp_enqueue_script( 'slms_map', get_stylesheet_directory_uri() . '/static/js/map.js', array( 'jquery', 'mapbox' ) );
+				wp_enqueue_script( 'slms_main', get_stylesheet_directory_uri() . '/static/js/main.js', array( 'jquery', 'mapbox' ) );
 			}
 
 			function register_widgets() {
