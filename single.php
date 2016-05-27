@@ -1,7 +1,7 @@
 <?php if ( have_posts() ): ?>
 <div class="wrap">
 	<?php while ( have_posts() ) : the_post(); ?>
-		<article <?php post_class( 'article' ); ?>>
+		<article <?php post_class( 'post' ); ?>>
 			<?php if ( has_post_thumbnail() ) : ?>
 				<figure class="post--thumbnail">
 					<?php the_post_thumbnail( 'large' ); $background_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' ); ?>
