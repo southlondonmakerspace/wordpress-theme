@@ -1,7 +1,11 @@
 South London Makerspace
 =======================
 
-### Development
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/badges/build.png?b=master)](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/build-status/master)
+
+Development
+---
 
 ```
 npm install
