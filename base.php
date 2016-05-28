@@ -20,7 +20,7 @@
 	MMMMMMMMM         M        MMM   MMM
 	 MMMMMMMM                  MMMM MMMM
 	MMMMMMMMM                  MMMMMMMMM
-	
+
 	South London Makerspace
 	=======================
 
@@ -35,12 +35,12 @@
 		<meta charset="<?php bloginfo( 'charset' ) ?>" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		
+
 		<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> RSS2 Feed" href="<?php bloginfo( 'rss2_url' ) ?>" />
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ) ?>" />
 
 		<title><?php wp_title( '&mdash;', true, 'right' ) ?><?php echo bloginfo( 'name' ) ?></title>
-		
+
 		<?php wp_head() ?>
 	</head>
 	<body <?php body_class() ?>>
@@ -55,8 +55,34 @@
 			<?php endif; ?>
 		</header>
 		<?php include slms_template_path(); ?>
-                <section class="wrap ruled">
-			<p>&copy; <?php echo date( 'Y' ); ?> South London Makerspace</p>
+		<section class="ruled">
+			<div class="wrap">
+				<div class="widgets">
+					<div class="widget widget__large">
+						<h1 class="widgettitle">Supporters</h1>
+						<?php
+
+							$sponsors = get_post_by_slug('sponsors');
+
+							echo '<div class="sponsors">' . apply_filters('the_content', $sponsors->post_content ) . '</div>';
+
+							$children = get_children([
+								'post_parent' => $sponsors->ID,
+								'post_status' => 'publish'
+							] );
+						?>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="wrap ruled">
+			<p>&copy; <?php echo date( 'Y' ); ?> South London Makerspace<br/>
+				Proud to be part of <a href="//openworkshopnetwork.com/">London's Open Workshop Network</a>
+			</p>
+			<p>
+				Found an issue? <a href=""https://github.com/southlondonmakerspace/wordpress-theme>Let us know</a> or
+				<a href=""https://github.com/southlondonmakerspace/wordpress-theme>fork on Github</a>
+			</p>
 		</section>
 		<?php wp_footer() ?>
 	</body>

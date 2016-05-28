@@ -12,7 +12,7 @@
 	if ( ! class_exists( 'SLMS_Theme' ) ) {
 		class SLMS_Theme {
 
-			function __construct() {
+			public function __construct() {
 				add_theme_support( 'post-thumbnails' );
 
 				add_action( 'init', array( &$this, 'register_sidebars' ) );
@@ -23,7 +23,7 @@
 				add_filter( 'excerpt_more', array( &$this, 'excerpt_more' ) );
 			}
 
-			function register_sidebars() {
+			public function register_sidebars() {
 				register_sidebar( array(
 					'name'	=> 'Homepage',
 					'id'	=> 'slms_home_sidebar',
@@ -43,24 +43,24 @@
 				) );
 			}
 
-			function register_nav_menus() {
+			public function register_nav_menus() {
 				register_nav_menus( array(
 					'slms_home_links'	=>	'Homepage Links',
 					'slms_quick_links'	=>	'Quick Links'
 				) );
 			}
 
-			function enqueue_styles() {
+			public function enqueue_styles() {
 				wp_enqueue_style( 'mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' );
 				wp_enqueue_style( 'slms_main', get_stylesheet_directory_uri() . '/static/css/main.css' );
 			}
 
-			function enqueue_scripts() {
+			public function enqueue_scripts() {
 				wp_register_script( 'mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js' );
 				wp_enqueue_script( 'slms_main', get_stylesheet_directory_uri() . '/static/js/main.js', array( 'jquery', 'mapbox' ) );
 			}
 
-			function register_widgets() {
+			public function register_widgets() {
 				register_widget( 'slms_newsletter' );
 				register_widget( 'slms_quick_links' );
 				register_widget( 'slms_forum' );
@@ -68,10 +68,25 @@
 				register_widget( 'slms_events' );
 			}
 
-			function excerpt_more( $more ) {
-				return '…';
+			public function excerpt_more() {
+				return '&hellip;';
 			}
 		}
 
 		$SLMS_Theme = new SLMS_Theme();
 	}
+
+
+
+/**
+ * https://gist.github.com/keithics/5398349
+ *
+ * @param  string $post_name
+ * @return WP_Post
+ */
+function get_post_by_slug($post_name) {
+	global $wpdb;
+	$post = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s", $post_name));
+
+	return $post ? get_post($post) : NULL;
+}
