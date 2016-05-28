@@ -14,7 +14,7 @@ jQuery( document ).ready( function() {
 	wideCenter = L.latLng( 51.4496209487744, -0.10102272033691406 );
 
 	map = L.mapbox.map( 'map', 'mapbox.streets', {
-		zoom: 15,
+		zoom: 14,
 		zoomControl: false,
 		center: normalCenter
 	} );
