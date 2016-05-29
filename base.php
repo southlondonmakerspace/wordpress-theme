@@ -76,11 +76,11 @@
 			</div>
 		</section>
 		<section class="wrap ruled">
-			<p>&copy; 2015&mdash;<?php echo date( 'Y' ); ?> South London Makerspace</>
-			<p>Proud to be part of <a href="http://openworkshopnetwork.com/">London's Open Workshop Network</a></p>
+			<p>&copy;2015&mdash;<?php echo date( 'Y' ); ?> South London Makerspace</>
+			<p>Proud to be part of the London <a href="http://openworkshopnetwork.com/" target="_blank">Open Workshop Network</a></p>
 			<p>
-				Found an issue? <a href="https://github.com/southlondonmakerspace/wordpress-theme/issues">Let us know</a> or
-				<a href="https://github.com/southlondonmakerspace/wordpress-theme">fork on Github</a>
+				Found an issue? <a href="https://github.com/southlondonmakerspace/wordpress-theme/issues" target="_blank">Let us know</a> or
+				<a href="https://github.com/southlondonmakerspace/wordpress-theme" target="_blank">fork on Github</a>
 			</p>
 		</section>
 		<?php wp_footer() ?>
