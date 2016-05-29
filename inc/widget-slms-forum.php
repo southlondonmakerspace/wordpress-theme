@@ -21,7 +21,7 @@ class slms_forum extends WP_Widget {
 
 		$rss->init();
 
-		$items = $rss->get_items(0, 3);
+		$items = $rss->get_items( 0, $instance['items'] );
 
 			?>
 			<a href="http://discourse.southlondonmakerspace.org/">Visit our forums</a>
