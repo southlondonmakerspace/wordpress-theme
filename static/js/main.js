@@ -40,6 +40,11 @@ jQuery( document ).ready( function() {
 } );
 
 function handleSize() {
+
+	if (!map) {
+		return;
+	}
+
 	if ( window.matchMedia( "(min-width: 48em)" ).matches ) {
 		map.setView( normalCenter );
 	} else {
