@@ -76,7 +76,7 @@
 			</div>
 		</section>
 		<section class="wrap ruled">
-			<p>&copy;2013&mdash;<?php echo date( 'Y' ); ?> South London Makerspace</>
+			<p>&copy;2013&mdash;<?php echo date( 'Y' ); ?> South London Makerspace</p>
 			<p>Proud to be part of the London <a href="http://openworkshopnetwork.com/" target="_blank">Open Workshop Network</a></p>
 			<p>
 				Found an issue? <a href="https://github.com/southlondonmakerspace/wordpress-theme/issues" target="_blank">Let us know</a> or
