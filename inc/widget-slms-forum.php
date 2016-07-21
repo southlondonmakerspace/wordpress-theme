@@ -7,7 +7,11 @@ class slms_forum extends WP_Widget {
 	}
 
 	public function widget( $args, $instance ) {
+
 		echo $args['before_widget'];
+
+		echo '<header>';
+
 		echo $args['before_title'] . apply_filters( 'widget_title', 'Forum' ). $args['after_title'];
 
 		if ( isset( $instance['text'] ) )	{
@@ -25,12 +29,15 @@ class slms_forum extends WP_Widget {
 
 			?>
 			<a href="http://discourse.southlondonmakerspace.org/">Visit our forums</a>
-			<h2>Latest posts</h2>
-			<ul class="links">
-				<?php foreach ( $items as $item ) : ?>
-					<li><a href="<?php echo $item->get_link() ?>"><?php echo $item->get_title(); ?></a></li>
-				<?php endforeach ?>
-			</ul>
+		<?php echo '</header>'; ?>
+			<div>
+				<h2>Latest posts</h2>
+				<ul class="links">
+					<?php foreach ( $items as $item ) : ?>
+						<li><a href="<?php echo $item->get_link() ?>"><?php echo $item->get_title(); ?></a></li>
+					<?php endforeach ?>
+				</ul>
+			</div>
 		<?php
 
 		echo $args['after_widget'];

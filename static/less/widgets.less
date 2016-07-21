@@ -124,3 +124,27 @@
 			margin-bottom: 1em;
 		}
 	}
+
+
+/**
+ *
+ * Forum
+ *
+ */
+
+@media screen and (min-width: @breakpoint_palm ) and (max-width: @breakpoint_desk ) {
+	.widget_slms_forum {
+		width: 100%;
+
+		& > * {
+			box-sizing: border-box;
+			padding-right: .5em;
+			float: left;
+			width: 50%;
+
+			&:last-child {
+				padding-left: .5em;
+			}
+		}
+	}
+}
