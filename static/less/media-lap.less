@@ -5,11 +5,12 @@
 
 	header {
 		.hero {
-			left: @colw + 5em + 1em;
+			left: 50%;
 			right: 0;
 			width: auto;
 		}
 	}
+
 
 	section {
 
@@ -57,7 +58,6 @@
 	}
 
 
-	#intro,
 	.wrap {
 		padding-top: 3.5em;
 		margin-left: 6em;
@@ -68,6 +68,14 @@
 	}
 
 	#intro {
-		width: @colw;
+		width: 50%;
+		max-width: @colw;
+	}
+}
+
+@media screen and (min-width: 897px) {
+
+	header .hero {
+		left: @colw + 5em + 1em;
 	}
 }
