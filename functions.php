@@ -1,6 +1,7 @@
 <?php
 
 	define( 'SLMS_THEME_DIR', get_stylesheet_directory() );
+	define( 'SLMS_ENV', preg_match('/southlondonmakerspace\.org/', get_bloginfo('wpurl') ) ? 'production' : 'development' );
 
 	require SLMS_THEME_DIR . '/inc/template.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-blog.php';
@@ -21,7 +22,19 @@
 				add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
 				add_action( 'widgets_init', array( &$this, 'register_widgets' ) );
 				add_filter( 'excerpt_more', array( &$this, 'excerpt_more' ) );
+				add_filter( 'script_loader_src', array( &$this, 'remove_query_string_versioning' ) );
+				add_filter( 'style_loader_src', array( &$this, 'remove_query_string_versioning' ) );
 			}
+
+			function remove_query_string_versioning( $src ) {
+				if ( preg_match('/maps\.google/', $src ) )
+					return $src;
+
+				$parts = explode( '?', $src );
+
+				return array_shift( $parts );
+			}
+
 
 			public function register_sidebars() {
 				register_sidebar( array(
@@ -52,6 +65,15 @@
 
 			public function enqueue_styles() {
 				wp_enqueue_style( 'mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' );
+
+				if ( SLMS_ENV === 'production' ) {
+
+					foreach ( glob( get_stylesheet_directory() . '/static/dist/*.css') as $css_file ) {
+						wp_enqueue_style( 'slms-' . basename( $css_file ), get_stylesheet_directory_uri() . '/static/dist/' . basename( $css_file ) );
+					}
+					return;
+				}
+
 				wp_enqueue_style( 'slms_main', get_stylesheet_directory_uri() . '/static/css/main.css' );
 			}
 
