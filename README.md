@@ -1,20 +1,28 @@
 South London Makerspace
 =======================
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/badges/build.png?b=master)](https://scrutinizer-ci.com/g/southlondonmakerspace/wordpress-theme/build-status/master)
+The WordPress theme for [South London Makerspace](https://southlondonmakerspace.org). Version 3.0.0, for WordPress 6.3 or later and PHP 7.4 or later.
 
 Development
 ---
 
+The styles are written in LESS, in `static/less/`, and compiled to `static/css/main.css` and `static/css/steps.css`. WordPress loads those compiled files directly, so compile the LESS and commit the CSS with your changes.
+
 ```
 npm install
-gulp watch
+npm run watch
+```
+
+`npm run watch` recompiles whenever a `.less` file changes, and `npm run less` compiles once. The build uses gulp 3, which only runs on Node 10 or earlier. On a newer Node, compile with `lessc` instead:
+
+```
+npx lessc@2.7 static/less/main.less static/css/main.css
+npx lessc@2.7 static/less/steps.less static/css/steps.css
 ```
 
 ### Deployment
 
-Any changes committed to the `master` branch will be automatically uploaded to the development preview at [slms.wpengine.com](http://slms.wpengine.com)
+There is no automatic deployment. To update the site, copy the theme folder to `wp-content/themes/slms-theme/` on the server.
 
 ### Front-page map
 
@@ -27,9 +35,9 @@ The map at the top of the front page uses [MapLibre GL](https://maplibre.org) wi
 | `static/map/build-style.js` | The map's colours; generates `static/js/map-style.js` |
 | `static/js/map-style.js` | Generated map layers. Don't edit by hand |
 | `static/js/main.js` | Creates the map, the zoom buttons and the marker |
-| `static/vendor/` | Copies of MapLibre GL 5.24.1 and PMTiles 4.5.0 |
+| `static/vendor/` | Copies of MapLibre GL 5.24.1 and PMTiles 4.5.0, and Font Awesome Free 7.3.1 for the Facility widget's icons |
 
-The marker is MapLibre's standard pin in red, and clicking it shows the space's name. The pin, its position, the map centre and the zoom level are all set in `static/js/main.js`.
+The marker is MapLibre's standard pin in red. It links to the Find us page (a published page with the slug `find-us`), or, without that page, clicking it shows the space's name. The pin, its position, the map centre and the zoom level are all set in `static/js/main.js`.
 
 #### Changing the colours
 
@@ -50,9 +58,9 @@ The tiles are a snapshot and don't update by themselves, so re-cut them now and 
    ```
 
    `--bbox` is west,south,east,north. A bigger area or a higher `--maxzoom` makes the file larger (this one is about 8 MB).
-4. If you change `--bbox`, change `maxBounds` in `static/js/main.js` to match, so people can't pan past the edge of the tiles.
+4. If you change `--bbox`, change `maxBounds` in `static/js/main.js` to stay inside it, so people can't pan past the edge of the tiles. It's set a little inside the tiles so the pin is in the middle.
 
-The map's credit (© OpenStreetMap contributors and Protomaps) is in the page footer, in `base.php`, rather than on the map, because on phones the intro covers the map's corner. The OpenStreetMap licence requires the credit, so keep it.
+The map's credit (© OpenStreetMap contributors and Protomaps) is a caption at the foot of the map, in `base.php`. It starts open, then closes to its © button after five seconds. The OpenStreetMap licence requires the credit, so keep it.
 
 ### Events widget
 

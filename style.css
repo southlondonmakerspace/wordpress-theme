@@ -1,12 +1,17 @@
 /*
 
 	Theme Name:		South London Makerspace
-	Version:		2.0.0
+	Version:		3.0.0
 
-	Description:	This is the theme of South London Makerspace. It has a widgetised homepage, with blog, comments, and static page stylesheets.
+	Description:	The theme of South London Makerspace: a front page with a map of the space and widgets for events, facilities, the blog and the forum, featured-image pages, and WooCommerce shop pages.
 
 	Authors:		South London Makerspace Members
-	Author URI:		http://southlondonmakerspace.org/
+	Author URI:		https://southlondonmakerspace.org/
+	Theme URI:		https://github.com/southlondonmakerspace/wordpress-theme
+
+	Requires at least:	6.3
+	Tested up to:		7.1
+	Requires PHP:		7.4
 
 	License:		GNU General Public License v2 or later
 	License URI:	http://www.gnu.org/licenses/gpl-2.0.html

@@ -1,19 +1,19 @@
 {
   "name": "slms-theme",
-  "version": "0.1.0",
-  "description": "Wordpress theme for South London makerspace",
-  "main": "index.js",
+  "version": "3.0.0",
+  "description": "WordPress theme for South London Makerspace",
+  "main": "functions.php",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "map-style": "node static/map/build-style.js",
-    "build": "gulp build; git add static/dist; git commit static/dist -m \"Latest build $(date)\""
+    "less": "gulp less",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/southlondonmakerspace/wordpress-theme.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-2.0-or-later",
   "bugs": {
     "url": "https://github.com/southlondonmakerspace/wordpress-theme/issues"
   },
@@ -24,9 +24,6 @@
     "gulp-cssnano": "^2.1.0",
     "gulp-less": "^3.0.5",
     "gulp-load-plugins": "^1.2.0",
-    "gulp-minify-css": "^1.2.3",
-    "gulp-rev": "^7.1.0",
-    "del": "^2.2.1",
     "@protomaps/basemaps": "5.7.2"
   }
 }

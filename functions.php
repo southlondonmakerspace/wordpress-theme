@@ -2,7 +2,6 @@
 
 	define( 'SLMS_THEME_DIR', get_stylesheet_directory() );
 	define( 'SLMS_STATIC_URI', get_stylesheet_directory_uri() . '/static' );
-	define( 'SLMS_ENV', preg_match('/southlondonmakerspace\.org/', get_bloginfo('wpurl') ) ? 'production' : 'development' );
 	// The space's Discourse forum: its feeds, events and links
 	define( 'SLMS_FORUM_URL', 'https://discourse.southlondonmakerspace.org/' );
 
@@ -132,14 +131,6 @@
 				// For the facilities' icons
 				if ( is_front_page() && is_active_widget( false, false, 'slms_facilities' ) ) {
 					wp_enqueue_style( 'fontawesome', SLMS_STATIC_URI . '/vendor/fontawesome/css/all.min.css', array(), self::FONTAWESOME_VERSION );
-				}
-
-				if ( SLMS_ENV === 'production' ) {
-
-					foreach ( glob( SLMS_THEME_DIR . '/static/dist/*.css') as $css_file ) {
-						wp_enqueue_style( 'slms-' . basename( $css_file ), SLMS_STATIC_URI . '/dist/' . basename( $css_file ) );
-					}
-					return;
 				}
 
 				wp_enqueue_style( 'slms_main', SLMS_STATIC_URI . '/css/main.css', array(), $this->asset_version( 'static/css/main.css' ) );
