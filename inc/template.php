@@ -3,9 +3,6 @@
 function slms_template_path() {
 	return SLMS_Wrapping::$main_template;
 }
-function slms_template_base() {
-	return SLMS_Wrapping::$base;
-}
 
 class SLMS_Wrapping {
 	/**

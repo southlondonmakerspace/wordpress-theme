@@ -8,7 +8,7 @@ class slms_quick_links extends WP_Widget {
 	public function widget( $args, $instance ) {
 		echo $args['before_widget'];
 		echo $args['before_title'] . apply_filters( 'widget_title', 'Quick Links' ). $args['after_title'];
-		if ( ! empty( $instance['text'] ) ) echo '<p>' . nl2br( $instance['text'] ) . '</p>';
+		if ( ! empty( $instance['text'] ) ) echo '<p>' . nl2br( esc_html( $instance['text'] ) ) . '</p>';
 		wp_nav_menu( array(
 			'theme_location'	=> 'slms_quick_links',
 			'container'			=> false,
@@ -21,7 +21,7 @@ class slms_quick_links extends WP_Widget {
 		?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'text' ); ?>">Text:</label><br />
-				<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_attr( $instance['text'] ); ?></textarea>
+				<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_textarea( $instance['text'] ?? '' ); ?></textarea>
 			</p>
 		<?php
 	}

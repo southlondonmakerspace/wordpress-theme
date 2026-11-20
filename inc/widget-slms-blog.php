@@ -3,47 +3,46 @@
 class slms_blog extends WP_Widget {
 	public function __construct() {
 		parent::__construct( 'slms_blog', 'Blog', array( 'classname' => 'multi' ) );
-		$this->widget_options['before_widget'] = 'test';
 	}
 
 	public function widget( $args, $instance ) {
 
 		$number_of_posts = isset( $instance['posts'] ) && is_numeric( intval( $instance['posts'] ) ) ? intval( $instance['posts'] ) : 3;
 
+		// Not the post being read, if it's a post page
+		$current = is_single() ? get_queried_object_id() : 0;
+
 		$query = new WP_Query( array(
-			'posts_per_page' => is_single( get_queried_object_id() ) ? $number_of_posts + 1 : $number_of_posts,
-			'ignore_sticky_posts'=> is_sticky( get_queried_object_ID() ),
-			'post_not_in' => array( get_queried_object_id() )
+			'posts_per_page'      => $number_of_posts,
+			'ignore_sticky_posts' => $current && is_sticky( $current ),
+			'post__not_in'        => $current ? array( $current ) : array(),
 		) );
 
+		// The stylesheet gives the widget a column per post, up to three
+		$columns = max( 1, min( 3, $number_of_posts, $query->post_count ) );
+
 		?>
-			<section class="widget widget__large">
+			<section class="widget widget__posts" style="--posts: <?php echo $columns; ?>">
 				<header>
 					<?php echo sprintf(
 						    '%s<a href="%s">%s</a>%s',
 						    $args['before_title'],
-						    get_permalink( get_option( 'page_for_posts' ) ),
+						    esc_url( get_permalink( get_option( 'page_for_posts' ) ) ),
 						    apply_filters( 'widget_title', 'Blog' ),
 						    $args['after_title']
 						); ?>
 					<?php if ( ! empty( $instance['text'] ) ): ?>
-						<p><?php echo nl2br( $instance['text'] ); ?></p>
+						<p><?php echo nl2br( esc_html( $instance['text'] ) ); ?></p>
 					<?php endif ?>
 				</header>
 				<div class="posts">
 				<?php while ( $query->have_posts() ) :
 					$query->the_post();
 
+					// Sticky posts come on top of posts_per_page
 					if ( $query->current_post < $number_of_posts ) : ?><!--
 
-				 --><article <?php post_class(); ?>>
-						<header>
-							<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
-							<time datetime="<?php echo get_the_date( 'c' ); ?>"><?php echo get_the_date(); ?></time><?php edit_post_link( 'Edit' ); ?>
-						</header>
-						<?php the_excerpt(); ?>
-						<a href="<?php the_permalink(); ?>">Read more</a>
-					</article><!--
+				 --><?php get_template_part( 'parts/post-card', null, array( 'heading' => 'h3' ) ); ?><!--
 					--><?php endif; ?><?php endwhile ?>
 				</div>
 			</section>
@@ -55,11 +54,11 @@ class slms_blog extends WP_Widget {
 
 		 ?><p>
 				<label for="<?php echo $this->get_field_id( 'posts' ); ?>">Posts:</label>
-				<input type="number" min="1" max="12" id="<?php echo $this->get_field_id( 'posts' ); ?>" name="<?php echo $this->get_field_name( 'posts' ); ?>" value="<?php echo $instance['posts'] ?>">
+				<input type="number" min="1" max="12" id="<?php echo $this->get_field_id( 'posts' ); ?>" name="<?php echo $this->get_field_name( 'posts' ); ?>" value="<?php echo esc_attr( $instance['posts'] ?? 3 ) ?>">
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'text' ); ?>">Text:</label><br />
-				<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_attr( $instance['text'] ); ?></textarea>
+				<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_textarea( $instance['text'] ?? '' ); ?></textarea>
 			</p>
 		<?php
 	}

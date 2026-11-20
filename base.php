@@ -27,62 +27,107 @@
 	If you are reading this you obviously know your way around a web browser.
 	Why not volunteer to help with the various development and maintenance projects Makerspace has.
 
-	Email us: trustees@southlondonmakerspace.org
+	Email us: systems@southlondonmakerspace.org
 
 -->
 <html <?php language_attributes()?>>
 	<head>
 		<meta charset="<?php bloginfo( 'charset' ) ?>" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-		<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> RSS2 Feed" href="<?php bloginfo( 'rss2_url' ) ?>" />
-		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ) ?>" />
-
-		<title><?php wp_title( '&mdash;', true, 'right' ) ?><?php echo bloginfo( 'name' ) ?></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<?php wp_head() ?>
 	</head>
 	<body <?php body_class() ?>>
-		<!--[if lt IE 8]>
-			<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-			<div class="browserupgrade"></div>
-		<![endif]-->
+		<?php wp_body_open() ?>
+		<a class="skip-link btn" href="#content">Skip to content</a>
 		<header>
-			<a href="<?php bloginfo( 'url' ); ?>" class="logo"><?php bloginfo( 'name' ) ?></a>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo"><?php bloginfo( 'name' ) ?></a>
+			<?php if ( has_nav_menu( 'slms_home_links' ) ) : ?>
+				<nav class="site-nav" aria-label="Site">
+					<?php // On narrow screens the summary is a menu button; on wide ones it's hidden and the links always show ?>
+					<details>
+						<summary aria-label="Menu"><?php echo slms_icon( 'bars', '1.5em' ) ?></summary>
+						<?php
+							// The basket, for logged-in users, is the menu's last item
+							$cart = slms_cart_link();
+							wp_nav_menu( array(
+								'theme_location' => 'slms_home_links',
+								'container'      => false,
+								'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s' . ( $cart ? '<li class="menu-item-cart">' . $cart . '</li>' : '' ) . '</ul>',
+							) );
+						?>
+					</details>
+				</nav>
+			<?php endif; ?>
 			<?php if ( is_front_page() ) : ?>
-				<div class="hero" id="map"></div>
+				<div class="hero" id="map">
+					<?php // Its credit, which OpenStreetMap's licence asks to be shown when the map loads: open, then closed after a few seconds (see main.js) ?>
+					<?php slms_hero_caption( 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, map tiles by <a href="https://protomaps.com">Protomaps</a>', 'Map credits', 'copyright', true ); ?>
+				</div>
+			<?php elseif ( slms_has_featured_image() ) : ?>
+				<figure class="hero">
+					<?php echo get_the_post_thumbnail( get_queried_object_id(), 'full', array( 'sizes' => '100vw', 'loading' => false, 'fetchpriority' => 'high' ) ); ?>
+					<?php if ( $caption = get_the_post_thumbnail_caption( get_queried_object_id() ) ) : ?>
+						<?php slms_hero_caption( esc_html( $caption ), 'Image caption', 'camera' ); ?>
+					<?php endif; ?>
+				</figure>
 			<?php endif; ?>
 		</header>
 		<?php include slms_template_path(); ?>
+		<?php
+			// Only shown when there is a published Page with the slug "supporters"
+			if ( $supporters = slms_page( 'supporters' ) ) :
+		?>
 		<section class="ruled">
 			<div class="wrap">
 				<div class="widgets">
 					<div class="widget widget__large">
-						<h1 class="widgettitle">Supporters</h1>
-						<?php
-
-							$sponsors = get_post_by_slug('sponsors');
-
-							echo '<div class="sponsors">' . apply_filters('the_content', $sponsors->post_content ) . '</div>';
-
-							$children = get_children([
-								'post_parent' => $sponsors->ID,
-								'post_status' => 'publish'
-							] );
-						?>
+						<h2 class="widgettitle">Supporters</h2>
+						<div class="sponsors"><?php echo apply_filters( 'the_content', $supporters->post_content ); ?></div>
 					</div>
 				</div>
 			</div>
 		</section>
+		<?php endif; ?>
+		<?php
+			$find_us      = slms_page_url( 'find-us' );
+			$open_evening = ( new slms_events() )->next_open_evening();
+			$menu         = wp_get_nav_menu_object( get_nav_menu_locations()['slms_footer_links'] ?? 0 );
+		?>
+		<footer>
+		<section class="wrap ruled">
+			<div class="footer">
+				<div>
+					<h2>Visit</h2>
+					<p>Arch 1129&ndash;1130<br>41 Norwood Road<br>London SE24 9AJ</p>
+					<?php if ( $find_us ) : ?>
+						<p><?php echo slms_more_link( $find_us, 'Find us' ) ?></p>
+					<?php endif ?>
+				</div>
+				<div>
+					<h2>Open evenings</h2>
+					<p>The way to look round and meet members.</p>
+					<?php if ( $open_evening ) : ?>
+						<p>Next: <?php echo esc_html( wp_date( 'l, jS F', $open_evening['start']->getTimestamp() ) ) ?><br><?php echo esc_html( wp_date( 'H:i', $open_evening['start']->getTimestamp() ) . '–' . wp_date( 'H:i', $open_evening['end']->getTimestamp() ) ) ?></p>
+						<p><?php echo slms_more_link( $open_evening['url'], 'Event details' ) ?></p>
+					<?php endif ?>
+				</div>
+				<?php if ( $menu ) : ?>
+					<div>
+						<h2><?php echo esc_html( $menu->name ) ?></h2>
+						<?php wp_nav_menu( array( 'theme_location' => 'slms_footer_links', 'container' => false, 'menu_class' => 'links', 'depth' => 1 ) ); ?>
+					</div>
+				<?php endif ?>
+			</div>
+		</section>
+		<section class="wrap ruled">
+			<?php slms_social_links() ?>
+		</section>
 		<section class="wrap ruled">
 			<p>&copy;2013&mdash;<?php echo date( 'Y' ); ?> South London Makerspace</p>
-			<p>Proud to be part of the London <a href="http://openworkshopnetwork.com/" target="_blank">Open Workshop Network</a></p>
-			<p>
-				Found an issue? <a href="https://github.com/southlondonmakerspace/wordpress-theme/issues" target="_blank">Let us know</a> or
-				<a href="https://github.com/southlondonmakerspace/wordpress-theme" target="_blank">fork on Github</a>
-			</p>
+			<p>Proud to be part of the London <a href="http://openworkshopnetwork.com/">Open Workshop Network</a></p>
 		</section>
+		</footer>
 		<?php wp_footer() ?>
 	</body>
 </html>

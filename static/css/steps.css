@@ -1,0 +1,32 @@
+.wp-block-list.is-style-steps {
+  list-style: none;
+  padding-left: 0;
+}
+.wp-block-list.is-style-steps > li {
+  position: relative;
+  min-height: 1.8em;
+  padding-left: 2.6em;
+  margin-bottom: 1.5em;
+  line-height: 1.4em;
+}
+.wp-block-list.is-style-steps > li:before {
+  content: counter(list-item);
+  position: absolute;
+  left: 0;
+  top: -0.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  background: #d00;
+  color: #fff;
+  font-weight: 600;
+}
+.wp-block-list.is-style-steps > li > strong:first-child {
+  display: block;
+}
+.wp-block-list.is-style-steps > li > strong:first-child + br {
+  display: none;
+}

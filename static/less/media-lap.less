@@ -1,81 +1,25 @@
-@media screen and ( min-width: @breakpoint_lap ) {
+// Tablets and up: posts in pairs. Otherwise tablets keep the phone layout
+// (the logo in the page, the content full width); the fixed logo and the
+// column beside it start at the desk breakpoint, below.
+@media screen and @from_lap {
+	.posts .post {
+		width: 50%;
+	}
+}
+
+// Desk and up: the logo fixed at the left, the content in a column beside it
+@media screen and @above_desk {
 	.logo {
 		position: fixed;
 	}
 
-	header {
-		.hero {
-			left: 50%;
-			right: 0;
-			width: auto;
-		}
-	}
-
-
-	section {
-
-		header {
-
-			&:nth-child(2n+1) {
-
-				&:before {
-					margin-left: -4em;
-				}
-			}
-
-			&:nth-child(2n+0):before {
-				display: none;
-			}
-		}
-
-		&.wrap {
-			margin-bottom: 4em;
-
-			header {
-				display: block;
-				width: @colw * 1.61;
-				margin-bottom: 0;
-			}
-		}
-	}
-
+	// Posts no wider than a widget
 	.posts .post {
-		width: 50%;
-		max-width: @colw;
-
-		@media ( min-width: 960px ) {
-			width: 33.3%;
-		}
-	}
-
-	#copyright {
-		margin-left: 6em;
-
-		&:before {
-			margin-left: -4em;
-			display: block;
-		}
-	}
-
-
-	.wrap {
-		padding-top: 3.5em;
-		margin-left: 6em;
-	}
-
-	.wrap {
-		width: 79%;
-	}
-
-	#intro {
-		width: 50%;
 		max-width: @colw;
 	}
-}
 
-@media screen and (min-width: 897px) {
-
-	header .hero {
-		left: @colw + 5em + 1em;
+	// The footer's sections, further apart
+	section.wrap {
+		margin-bottom: 4em;
 	}
 }

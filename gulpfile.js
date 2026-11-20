@@ -6,7 +6,7 @@ var plugins = require('gulp-load-plugins')();
 var del = require('del');
 
 gulp.task('less', function() {
-	gulp.src('./static/less/main.less')
+	gulp.src(['./static/less/main.less', './static/less/steps.less'])
 		.pipe(plugins.less())
 		.pipe(plugins.autoprefixer({
 			browsers: ['last 2 versions'],

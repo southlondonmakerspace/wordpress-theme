@@ -1,10 +1,38 @@
+@page_title_leading: 1.15;
+// Phones: below the tablet breakpoint (see variables.less)
+@to_lap: ~"(width < @{breakpoint_lap})";
+
+// The page's title at a size, its first line centred where a line 2em of
+// body text tall would be, so a one-line title still centres on the logo
+.page-title-size(@size) {
+	font-size: unit(@size, em);
+	margin: unit((2 - @size * @page_title_leading) / 2 / @size, em) 0 .5em;
+}
+
 .page--title {
-	font-size: 1.5em;
-	line-height: 1.35;
-	margin: 0 0 .5em;
+	line-height: @page_title_leading;
+	.page-title-size(2);
+
+	// Smaller on phones, where long titles wrap beside the logo
+	@media screen and @to_lap {
+		.page-title-size(1.75);
+	}
 
 	a {
-		color: currentColor;
 		font-weight: inherit;
+	}
+}
+// The 404 page (see 404.php): a large opening line, then a short paragraph
+.not-found {
+	max-width: 34em;
+	margin-bottom: 4em;
+	font-size: 1.15em;
+
+	&__lead {
+		font-size: 2.2em;
+		font-weight: 600;
+		line-height: 1.15;
+		margin: 0 0 .6em;
+		text-wrap: balance;
 	}
 }

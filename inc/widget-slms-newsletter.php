@@ -10,7 +10,7 @@ class slms_newsletter extends WP_Widget {
 		echo $args['before_title'] . apply_filters( 'widget_title', 'Newsletter' ). $args['after_title'];
 
 		if ( ! empty( $instance['text'] ) ) {
-			echo '<p>' . nl2br( $instance['text'] ) . '</p>';
+			echo '<p>' . nl2br( esc_html( $instance['text'] ) ) . '</p>';
 		}
 
 		?>
@@ -18,7 +18,8 @@ class slms_newsletter extends WP_Widget {
 				<form action="//southlondonmakerspace.us3.list-manage.com/subscribe/post?u=851fda98e1d7951586754129f&amp;id=38bef3c0a3" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 					<div id="mc_embed_signup_scroll">
 						<div class="mc-field-group">
-							<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+							<label class="screen-reader-text" for="mce-EMAIL">Email address</label>
+							<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" autocomplete="email">
 						</div>
 						<div id="mce-responses" class="clear">
 							<div class="response" id="mce-error-response" style="display:none"></div>
@@ -36,11 +37,11 @@ class slms_newsletter extends WP_Widget {
 
 	public function form( $instance ) {
 
-		$text = isset( $instance['text'] ) ? esc_attr( $instance['text'] ) : '';
+		$text = $instance['text'] ?? '';
 		?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'text' ) ?>">Text:</label><br />
-				<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo $text; ?></textarea>
+				<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo esc_textarea( $text ); ?></textarea>
 			</p>
 		<?php
 	}
