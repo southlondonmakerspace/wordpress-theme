@@ -15,26 +15,21 @@ class slms_forum extends WP_Widget {
 		echo $args['before_title'] . apply_filters( 'widget_title', 'Forum' ). $args['after_title'];
 
 		if ( isset( $instance['text'] ) )	{
-			echo '<p>' . nl2br( $instance['text'] ) . '</p>';
+			echo '<p>' . nl2br( esc_html( $instance['text'] ) ) . '</p>';
 		}
 
-		include_once( ABSPATH . WPINC . '/class-simplepie.php' );
-		$rss = new Simplepie();
-
-		$rss->set_feed_url( 'https://discourse.southlondonmakerspace.org/latest.rss' );
-
-		$rss->init();
-
-		$items = $rss->get_items( 0, $instance['items'] );
+		// WordPress caches the feed, so the forum isn't fetched on every page load
+		$rss = fetch_feed( SLMS_FORUM_URL . 'latest.rss' );
+		$items = is_wp_error( $rss ) ? array() : $rss->get_items( 0, (int) ( $instance['items'] ?? 3 ) );
 
 			?>
-			<a href="http://discourse.southlondonmakerspace.org/">Visit our forums</a>
+			<?php echo slms_more_link( SLMS_FORUM_URL, 'Visit our forums' ) ?>
 		<?php echo '</header>'; ?>
 			<div>
-				<h2>Latest posts</h2>
+				<h3>Latest posts</h3>
 				<ul class="links">
 					<?php foreach ( $items as $item ) : ?>
-						<li><a href="<?php echo $item->get_link() ?>"><?php echo $item->get_title(); ?></a></li>
+						<li><a href="<?php echo esc_url( $item->get_permalink() ) ?>"><?php echo esc_html( $item->get_title() ); ?></a></li>
 					<?php endforeach ?>
 				</ul>
 			</div>
@@ -50,11 +45,11 @@ class slms_forum extends WP_Widget {
 		?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'items' ) ?>">Items:</label>
-				<input type="number" min="3" max="10" id="<?php echo $this->get_field_id( 'items' ) ?>" name="<?php echo $this->get_field_name( 'items' ) ?>" value="<?php echo $instance['items'] ?>">
+				<input type="number" min="3" max="10" id="<?php echo $this->get_field_id( 'items' ) ?>" name="<?php echo $this->get_field_name( 'items' ) ?>" value="<?php echo esc_attr( $instance['items'] ?? 3 ) ?>">
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'text' ) ?>">Text:</label><br />
-				<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo esc_attr( $text ); ?></textarea>
+				<textarea id="<?php echo $this->get_field_id( 'text' ) ?>" name="<?php echo $this->get_field_name( 'text' ) ?>"><?php echo esc_textarea( $text ); ?></textarea>
 			</p>
 		<?php
 	}

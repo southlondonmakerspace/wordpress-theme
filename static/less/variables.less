@@ -1,9 +1,80 @@
 @colw: 20.9375em;
 
+// The theme's red, and text on it: dark enough for white text, and for
+// red text on white, at 4.5:1 (WCAG AA). Red text on the dark mode
+// background uses --link (see main.less), as this red is too dark there.
+@accent: #d00;
+@accent_hover: #b00;
+@on_accent: #fff;
+
+// The longest line of text, for reading
+@measure: 44.5em;
+
+@logo_size: 5em;
+// The logo's distance from the top; things lined up with it use its centre
+@logo_top: 2em;
+@logo_centre: @logo_top + @logo_size / 2;
+// Height of the menu button on narrower screens
+@menu_button: 2.5em;
+
+// Featured image band at the top of posts and pages
+@feature_height_phone: 18em;
+@feature_height: ~"min(70vh, 40em)";
+@wrap_padding_top: 3.5em;
+// Content column at lap and up
+@wrap_left: 6em;
+@wrap_width: 79%;
+@wrap_max_width: 69em;
+// Featured-image card: sits 2em left of the column, padded back to it
+@card_left: @wrap_left - 2em;
+
+// Breakpoints: phones (palm), tablets (lap) and laptops and up (desk). In em,
+// so they follow the reader's text size.
 @breakpoint_palm: 35em;
 @breakpoint_lap: 48em;
-@breakpoint_lap_min: 48.01em;
-@breakpoint_lap_max: @breakpoint_lap;
 @breakpoint_desk: 69em;
 
+// The media queries for them, in range syntax, so the two sides of a
+// breakpoint never both apply: tablets from 48em (768px, an iPad held
+// upright), and the desk layout from just above 69em. As in
+// `@media screen and @from_lap`.
+@from_lap: ~"(width >= @{breakpoint_lap})";
+@to_desk: ~"(width <= @{breakpoint_desk})";
+@above_desk: ~"(width > @{breakpoint_desk})";
+
+// WooCommerce's own: its small-screen stylesheet runs up to 768px. In px, as
+// WooCommerce's is.
+@woocommerce_small_screen: 768px;
+@above_woocommerce_small_screen: ~"(width > @{woocommerce_small_screen})";
+
 @fontstack_sans: "Source Sans Pro", Helvetica, Arial, sans-serif;
+
+// Hidden on screen, but still read by screen readers
+.visually-hidden() {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+// A <details> summary as a plain button, without the browser's marker
+.summary-button() {
+	list-style: none;
+	cursor: pointer;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+}
+
+// A text field in the page's colours, with a thin border
+.field() {
+	color: var(--text);
+	background: var(--bg);
+	border: 1px solid var(--field-border);
+}

@@ -1,18 +1,16 @@
-<div class="wrap">
-	<?php if ( have_posts() ) : ?>
-		<?php while ( have_posts() ) : the_post(); ?>
-			<section id="intro">
+<main class="wrap" id="content">
+	<?php if ( have_posts() ) : the_post(); ?>
+		<section id="intro">
+			<div>
 				<h1 class="page--title"><?php the_title() ?></h1>
 				<?php the_content() ?>
-				<?php wp_nav_menu( array(
-						'theme_location'	=> 'slms_home_links',
-						'container'			=> false,
-					) );
-				?>
-			</section>
-		<?php endwhile ?>
+			</div>
+			<?php if ( $join = slms_page_url( 'join' ) ) : ?>
+				<a class="btn" href="<?php echo esc_url( $join ) ?>">Join</a>
+			<?php endif ?>
+		</section>
 	<?php endif ?>
 	<div class="widgets">
 		<?php dynamic_sidebar( 'slms_home_sidebar' ); ?>
 	</div>
-</div>
+</main>

@@ -1,0 +1,51 @@
+// The Steps style for the List block (see register_block_styles() in
+// functions.php): each item numbered in a red circle beside it. Compiled on
+// its own, so WordPress loads it in the editor too, and only on pages using it.
+
+@import (reference) "variables";
+
+@step_size: 1.8em;
+@step_line: 1.4em;
+
+.wp-block-list.is-style-steps {
+	list-style: none;
+	padding-left: 0;
+
+	// Not the lists inside a step
+	> li {
+		position: relative;
+		min-height: @step_size;
+		padding-left: @step_size + .8em;
+		margin-bottom: 1.5em;
+		line-height: @step_line;
+
+		// The list's own count, so a list that starts at another number, or
+		// counts down, does here too
+		&:before {
+			content: counter(list-item);
+			position: absolute;
+			left: 0;
+			// Centred on the first line
+			top: (@step_line - @step_size) / 2;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: @step_size;
+			height: @step_size;
+			border-radius: 50%;
+			background: @accent;
+			color: @on_accent;
+			font-weight: 600;
+		}
+
+		// A bold start is the step's title, on its own line, so a line break
+		// after it (Shift+Enter in the editor) isn't needed
+		> strong:first-child {
+			display: block;
+
+			+ br {
+				display: none;
+			}
+		}
+	}
+}

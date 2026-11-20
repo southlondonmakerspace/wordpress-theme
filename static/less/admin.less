@@ -1,15 +1,44 @@
-.post-edit-link {
-	display: inline-block;
-	padding: 0;
-	font-size: .9rem;
-}
+// Make room for the WordPress toolbar when logged in. WordPress pushes the
+// page down by the toolbar's height: 32px, or 46px on screens up to 782px.
+// The map is positioned from the top of the page, so it needs moving down
+// by the same amount. The logo only needs it where it is fixed (desk and up,
+// wider than the small toolbar ever is);
+// on phones it sits in the page flow and moves down on its own.
+@admin_bar: 32px;
+@admin_bar_small: 46px;
+@admin_bar_breakpoint: 782px;
+@admin_bar_is_small: ~"(width <= @{admin_bar_breakpoint})";
 
 .admin-bar {
-	.logo {
-		top: 4em;
-	}
 
 	header .hero {
-		top: 2em;
+		top: @admin_bar;
+
+		@media screen and @admin_bar_is_small {
+			top: @admin_bar_small;
+		}
+	}
+
+	.site-nav {
+		top: calc(~"@{logo_centre} + @{admin_bar}");
+
+		@media screen and @admin_bar_is_small {
+			top: calc(~"@{logo_centre} + @{admin_bar_small}");
+		}
+	}
+
+	// The open full-screen menu starts below the toolbar too
+	header .site-nav .menu {
+		top: @admin_bar;
+
+		@media screen and @admin_bar_is_small {
+			top: @admin_bar_small;
+		}
+	}
+
+	@media screen and @above_desk {
+		.logo {
+			top: calc(~"@{logo_top} + @{admin_bar}");
+		}
 	}
 }

@@ -1,0 +1,293 @@
+// WooCommerce: the shop, basket (a block) and checkout (the classic form) in
+// the theme's colours, square corners and red buttons
+
+// WooCommerce's own variables, used by its classic stylesheet. It sets them
+// on .woocommerce too, so ours go there as well.
+:root,
+.woocommerce {
+	--wc-primary: @accent;
+	--wc-primary-text: @on_accent;
+	--wc-secondary: var(--rule);
+	--wc-secondary-text: var(--text);
+	--wc-form-color-background: var(--bg);
+	--wc-form-color-text: var(--text);
+	--wc-form-border-color: var(--field-border);
+	--wc-form-border-radius: var(--radius);
+	--wc-card-border-radius: var(--radius);
+	--wc-form-border-width: 1px;
+}
+
+.woocommerce {
+
+	.button,
+	button.button,
+	input.button {
+		font-weight: 600;
+	}
+
+	table.shop_table {
+		border-radius: var(--radius);
+		border-color: var(--rule);
+
+		th,
+		td {
+			border-top-color: var(--rule);
+		}
+	}
+
+	// The checkout's payment methods
+	#payment {
+		background: none;
+		border: 1px solid var(--rule);
+		border-radius: var(--radius);
+
+		ul.payment_methods {
+			border-bottom-color: var(--rule);
+		}
+
+		div.payment_box {
+			color: var(--text);
+			background: var(--rule);
+
+			&:before {
+				border-bottom-color: var(--rule);
+			}
+		}
+	}
+
+	// Text WooCommerce's stylesheet makes smaller: tables (such as the
+	// account's orders), prices in the shop and the checkout's payment details
+	table.shop_table,
+	ul.products li.product .price,
+	#payment div.payment_box {
+		font-size: 1em;
+	}
+
+	form .form-row label {
+		font-weight: 600;
+	}
+}
+
+// Notices, such as "added to your basket" and the coupon prompt
+.woocommerce-message,
+.woocommerce-info {
+	color: var(--text);
+	background: var(--rule);
+	border-top-color: @accent;
+
+	&:before {
+		color: var(--link);
+	}
+
+	// Its links in the text colour, underlined: red doesn't read on the grey.
+	// Not its buttons, such as View basket.
+	a:not(.button):link,
+	a:not(.button):visited {
+		color: inherit;
+		text-decoration: underline;
+	}
+}
+
+// The basket block
+table.wc-block-cart-items .wc-block-cart-items__row .wc-block-components-product-name {
+	font-size: 1em;
+	font-weight: 600;
+}
+
+// Buttons in the theme's red, which WooCommerce colours itself: grey, or
+// purple for main ones such as Place order
+.woocommerce #payment #place_order,
+.woocommerce :is(a, button, input).button,
+.woocommerce :is(a, button, input).button.alt {
+	color: @on_accent;
+	background: @accent;
+	border-radius: var(--radius);
+
+	&:hover {
+		color: @on_accent;
+		background: @accent_hover;
+	}
+}
+
+// Type: one text size. The basket block sets many sizes with long
+// selectors, so these need !important to win.
+.wp-block-woocommerce-cart {
+	*:not(h1):not(h3) {
+		font-size: 1rem !important;
+		text-transform: none !important;
+	}
+
+	h2,
+	th,
+	.wc-block-components-totals-item__label,
+	.wc-block-components-totals-item__value,
+	.wc-block-components-formatted-money-amount {
+		font-weight: 600 !important;
+	}
+
+	.wc-block-components-quantity-selector__button {
+		font-weight: 300 !important;
+	}
+}
+
+// A product's price in the text colour, rather than WooCommerce's olive
+.woocommerce div.product p.price,
+.woocommerce div.product span.price,
+.woocommerce ul.products li.product .price {
+	color: var(--text);
+}
+
+// A category's product count in the shop, beside its name: in the name's
+// colour, faded, rather than the browser's yellow highlight
+.woocommerce ul.products li.product-category mark.count {
+	background: none;
+	color: inherit;
+	opacity: .6;
+}
+
+// The quantity and Add to basket button side by side, the same height,
+// rather than full width like the theme's other fields and buttons
+.woocommerce div.product form.cart {
+	display: flex;
+	gap: .5em;
+
+	div.quantity {
+		float: none;
+		margin: 0;
+	}
+
+	.button {
+		float: none;
+		padding: 0 1.5em;
+	}
+}
+
+// Addresses on the account and order pages: plain text, in line with their
+// headings, without WooCommerce's box
+.woocommerce .woocommerce-customer-details address,
+.woocommerce-account .woocommerce-Address address {
+	padding: 0;
+	border: 0;
+	box-shadow: none;
+}
+
+// Order and basket totals: the amounts plain, the labels bold
+.woocommerce table.shop_table tfoot td {
+	font-weight: 300;
+}
+
+// The order received page: the thank-you as a heading, then the order's
+// details in a row, in line with it, without WooCommerce's dashed dividers
+.woocommerce-thankyou-order-received {
+	margin: 0 0 1.5em;
+	font-size: 1.5em;
+	font-weight: 600;
+}
+
+.woocommerce ul.order_details {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em 3em;
+	margin: 0 0 2.5em;
+	padding: 0;
+
+	&:before,
+	&:after {
+		display: none;
+	}
+
+	li {
+		float: none;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: .875em;
+		text-transform: none;
+
+		strong {
+			display: block;
+			margin-top: .2em;
+			font-size: 1.15em;
+		}
+	}
+}
+
+// A product's floated gallery and summary stay inside it, so what follows
+// starts below them
+.woocommerce div.product {
+	display: flow-root;
+}
+
+// Account forms: the password section without the browser's box, its
+// legend a heading
+.woocommerce form fieldset {
+	margin: 2em 0;
+	padding: 0;
+	border: 0;
+
+	legend {
+		padding: 0;
+		font-size: 1.25em;
+		font-weight: 600;
+	}
+}
+
+// The basket and checkout blocks' text fields, such as the coupon code, like
+// the theme's other fields, rather than white and rounded
+.wc-block-components-text-input input[type] {
+	.wp-block-woocommerce-cart &,
+	.wp-block-woocommerce-checkout & {
+		.field();
+		border-radius: var(--radius);
+
+		&:focus {
+			border-color: var(--text);
+			box-shadow: none;
+			outline: 1px solid var(--text);
+		}
+	}
+}
+
+// Buttons in the theme's red: the basket's checkout button, the coupon's
+// Apply, and WordPress's block buttons, such as Return to shop and Add to
+// basket under the empty basket, rather than WordPress's dark pill
+.wc-block-cart__submit-button,
+.wc-block-components-totals-coupon__button,
+.wp-block-button__link {
+	&:extend(.btn all);
+}
+
+// WooCommerce's other boxes, which it rounds itself by 2px to 5px: the
+// login, register and coupon forms, the payment method's box, notices, the
+// country select and the basket block's fields and quantity box
+.woocommerce form.checkout_coupon,
+.woocommerce form.login,
+.woocommerce form.register,
+.woocommerce #payment div.payment_box,
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error,
+.select2-container .select2-selection,
+.select2-container .select2-dropdown,
+.wc-block-components-notice-banner,
+.wc-block-components-textarea,
+.wc-block-components-quantity-selector {
+	border-radius: var(--radius);
+}
+
+// Form rows: WooCommerce's are paragraphs, so they'd take the theme's
+// line-length limit for text, making full-width rows shorter than the
+// half-width ones beside each other. Without its padding the fields line up
+// with the form's headings.
+.woocommerce form .form-row {
+	max-width: none;
+	padding: 0;
+}
+
+// The password field's show/hide eye is a dark image, so lighten it to the
+// text colour in dark mode
+@media (prefers-color-scheme: dark) {
+	.woocommerce form .show-password-input:before {
+		filter: invert(1);
+	}
+}

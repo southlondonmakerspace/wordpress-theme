@@ -1,18 +1,23 @@
+// A wrapping row, so spaces between the widgets in the HTML don't take up
+// room and push a widget that just fits onto the next line
+.widgets {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+}
+
 
 .widget {
-	position: relative;
 	padding-left: 1em;
-	display: inline-block;
 	width: 100%;
-	vertical-align: top;
-	background: #fff;
+	background: var(--bg);
 	margin-bottom: 2em;
 
-	@media screen and (min-width: @breakpoint_lap) {
+	@media screen and @from_lap {
 		width: 50%;
 	}
 
-	@media screen and ( min-width: @breakpoint_desk ) {
+	@media screen and @above_desk {
 		width: 33.3%;
 		max-width: @colw;
 		margin-bottom: 4em;
@@ -23,33 +28,48 @@
 		max-width: 100%;
 	}
 
+	// A widget of posts (Blog, Events): full width until there are three
+	// columns, then one column per post, up to three (the widget sets --posts),
+	// so two posts sit beside another widget and three fill the row
+	&.widget__posts {
+		width: 100%;
+
+		@media screen and @above_desk {
+			width: calc(~"33.3% * var(--posts)");
+			max-width: calc(~"@{colw} * var(--posts)");
+		}
+	}
+
 	p:first-child {
 		margin-top: .3em;
 	}
 
-	h1 {
+	// Only the widget's own margin below it, whatever it ends with
+	// (posts keep theirs, which .posts takes back below)
+	:last-child:not(.post, .posts) {
+		margin-bottom: 0;
+	}
+
+	// The gap below each post (main.less), not needed below the last row
+	.posts {
+		margin-bottom: -1.4em;
+	}
+
+	// Its title, and its posts' titles (Blog, Events)
+	.widgettitle,
+	.post h3 {
 		line-height: 1.3;
 		margin: 0 0 .25em;
-
-		a {
-			color: currentColor;
-		}
 	}
 
-	h2 {
-		font-size: 12pt;
-		line-height: 1.3;
-	}
-
-	.links {
-		list-style: none;
-		padding-left: 0;
+	.widgettitle {
+		font-size: 1.5em;
 	}
 
 	& > header {
 		margin-bottom: 1.5em;
 
-		@media screen and (min-width: @breakpoint_desk ) {
+		@media screen and @above_desk {
 			margin-bottom: 3em;
 		}
 	}
@@ -59,60 +79,166 @@
 	}
 }
 
-	.ruled,
-	.widget:first-child,
-	.widget__large {
+// Its posts share the widget's width, all in one row
+@media screen and @above_desk {
+	.widget__posts .posts .post {
+		width: calc(~"100% / var(--posts)");
+		max-width: none;
+	}
+}
+
+// Columns that line up with the widgets': one, two from the lap breakpoint,
+// three from the desk one, 1em apart, as the widgets' 1em padding sets them,
+// and on wide screens no wider than a widget's text (@colw less its padding)
+.columns() {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	column-gap: 1em;
+
+	@media screen and @from_lap {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@media screen and @above_desk {
+		grid-template-columns: repeat(3, minmax(0, @colw - 1em));
+	}
+}
+
+// The Facilities widget (see inc/widget-slms-facility.php): each facility's
+// icon above its name and description
+.facilities__grid {
+	.columns();
+	row-gap: 2em;
+}
+
+// The link to the Facilities page, below the grid
+.facilities__more {
+	display: inline-block;
+	margin-top: 2em;
+}
+
+.facility__icon {
+	display: block;
+	margin-bottom: .4em;
+	font-size: 2em;
+}
+
+.facility__title {
+	font-size: 1.25em;
+	line-height: 1.3;
+	margin: 0 0 .4em;
+}
+
+// Lists of links, each item marked with a short grey rule, and spaced apart so wrapped items don't run together
+.links {
+	list-style: none;
+	padding-left: 0;
+
+	li {
+		position: relative;
+		padding-left: 1em;
+		margin-bottom: .4em;
+
 		&:before {
 			content: '';
-			display: block;
-			position: relative;
-			left: -6em;
-			top: 1em;
-			width: 1em;
+			position: absolute;
+			left: 0;
+			top: .7em;
+			width: .5em;
 			height: 1px;
-			background: red;
-		}
-
-	}
-
-	@media screen and (min-width: @breakpoint_palm ) {
-		@media (max-width: @breakpoint_desk) {
-			.widget:nth-child(odd) {
-				&:before {
-					content: "";
-					display: block;
-					position: relative;
-					left: -6em;
-					top: 1em;
-					width: 1em;
-					height: 1px;
-					background: red;
-				}
-			}
+			// Grey in either mode: the text colour, faded
+			background: currentColor;
+			opacity: .5;
 		}
 	}
+}
 
-	@media screen and (max-width: @breakpoint_lap_max ) {
-		.widget,
-		.ruled {
-			&:before {
-				content: '';
-				display: block;
-				position: relative;
-				left: -2.4em;
-				top: 1em;
-				width: 1em;
-				height: 1px;
-				background: red;
-			}
-		}
+// The site footer: where to find us, open evenings and a menu, in columns
+// where there's room
+.footer {
+	.columns();
+	row-gap: 1em;
+	margin-bottom: 2em;
+
+	h2 {
+		font-size: 1rem;
+		margin: 0 0 .5em;
 	}
+
+	// Lines in step across the columns: the menu's list starts straight
+	// below its heading, as the paragraphs do, its items as far apart
+	p,
+	li {
+		margin: 0 0 .5em;
+	}
+
+	ul {
+		margin: 0;
+	}
+}
+
+// The space's accounts elsewhere (see slms_social_links()): a line of the
+// credits, each account's icon beside its name
+.social {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5em 1.5em;
+
+	a {
+		display: inline-flex;
+		align-items: center;
+		gap: .4em;
+	}
+}
+
+// The short red rule to the left of a ruled section or a row of widgets
+.ruled:before,
+.widget:before {
+	content: '';
+	width: 1em;
+	height: 1px;
+	background: @accent;
+}
+
+// Ruled sections: beside their first line
+.ruled:before {
+	display: block;
+	position: relative;
+	left: -2.4em;
+	top: 1em;
+
+	@media screen and @above_desk {
+		left: -6em;
+	}
+}
+
+// Widgets: one beside each row of them, so whichever widget starts a row,
+// however wide the widgets before it, the row has one. Each widget draws one,
+// placed from the left of the widget area rather than its own, so those in
+// the same row land on top of each other.
+.widgets {
+	position: relative;
+}
+
+.widget:before {
+	position: absolute;
+	// Level with the ruled sections' rule, allowing for the widget area's
+	// -1em margin
+	left: -1.4em;
+	margin-top: 1em;
+
+	@media screen and @above_desk {
+		left: -5em;
+	}
+}
+
+// The footer's rule lines up with the middle of its first line of text (half
+// the 1.4 line height) rather than with a heading
+.wrap.ruled:before {
+	top: .7em;
+}
 
 	.widget_slms_newsletter {
-
-		input {
-			border: 1px solid #ccc;
-		}
 
 		#mc_embed_signup_scroll {
 			.mce_inline_error {
@@ -132,12 +258,19 @@
  *
  */
 
-@media screen and (min-width: @breakpoint_palm ) and (max-width: @breakpoint_desk ) {
+// The heading above its latest posts
+.widget_slms_forum h3 {
+	font-size: 1rem;
+	line-height: 1.3;
+	margin: .83em 0;
+}
+
+@palm_to_desk: ~"(@{breakpoint_palm} < width <= @{breakpoint_desk})";
+@media screen and @palm_to_desk {
 	.widget_slms_forum {
 		width: 100%;
 
 		& > * {
-			box-sizing: border-box;
 			padding-right: .5em;
 			float: left;
 			width: 50%;
@@ -146,5 +279,14 @@
 				padding-left: .5em;
 			}
 		}
+	}
+}
+
+// Sponsor logos are usually dark artwork on a transparent background, so
+// give them a light card in dark mode to keep them visible
+@media (prefers-color-scheme: dark) {
+	.sponsors img {
+		background: #fff;
+		padding: .75em;
 	}
 }
