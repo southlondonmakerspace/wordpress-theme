@@ -5,10 +5,10 @@
  * Directors widget, the SLMS Directors block and the [slms_directors]
  * shortcode. See the README for setting it up.
  *
- * The list is fetched at most once a day, by a daily cron job, or by a page
- * if that was missed. It's kept in an option rather than a transient, so an
- * object cache (Redis) clearing it doesn't empty the list or fetch it again.
- * If a fetch fails, the last list stays and it tries again after an hour.
+ * The list is fetched once a day, by a daily cron job, so pages never wait
+ * for Companies House, except the first, when there's no list yet. It's kept
+ * in an option rather than a transient, so an object cache (Redis) clearing
+ * it doesn't empty the list. If a fetch fails, the last list stays.
  */
 class SLMS_Company_Directors {
 
@@ -20,11 +20,8 @@ class SLMS_Company_Directors {
 	const CRON_HOOK       = 'slms_directors_refresh';
 	const LOCK            = 'slms_directors_lock';
 
-	// How long a list is kept, a little under a day so the daily cron job
-	// isn't skipped by a few seconds
-	const FRESH_FOR = DAY_IN_SECONDS - 15 * MINUTE_IN_SECONDS;
-
-	// How long to wait after a failed fetch before trying again
+	// With no list yet, how long pages wait after a failed fetch before
+	// trying again
 	const RETRY_AFTER = HOUR_IN_SECONDS;
 
 	// Companies House's roles that count as a director
@@ -38,7 +35,7 @@ class SLMS_Company_Directors {
 		add_action( 'init', array( __CLASS__, 'register_block' ) );
 		add_action( 'init', array( __CLASS__, 'schedule' ) );
 		add_action( 'switch_theme', array( __CLASS__, 'unschedule' ) );
-		add_action( self::CRON_HOOK, array( __CLASS__, 'directors' ) );
+		add_action( self::CRON_HOOK, array( __CLASS__, 'refresh' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
 		add_action( 'admin_post_slms_directors_refresh', array( __CLASS__, 'handle_refresh' ) );
@@ -82,17 +79,18 @@ class SLMS_Company_Directors {
 	/**
 	 * The directors, oldest appointment first, each with name (as Companies
 	 * House has it), appointed and resigned ('' while still a director).
-	 * Fetched again first if the list is a day old.
+	 * Fetched first only if there's no list yet: the cron job keeps it up to
+	 * date.
 	 */
 	public static function directors() {
 		$cache   = self::cache();
 		$company = self::company();
 		$same    = ( $cache['company'] ?? '' ) === $company;
 
-		$fresh   = $same && ! empty( $cache['fetched'] ) && time() - (int) $cache['fetched'] < self::FRESH_FOR;
+		$listed  = $same && ! empty( $cache['directors'] );
 		$waiting = $same && ! empty( $cache['attempted'] ) && time() - (int) $cache['attempted'] < self::RETRY_AFTER;
 
-		if ( ! $fresh && ! $waiting ) {
+		if ( ! $listed && ! $waiting ) {
 			self::refresh();
 			$cache = self::cache();
 			$same  = ( $cache['company'] ?? '' ) === $company;

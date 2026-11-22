@@ -109,7 +109,7 @@ The Directors widget, the SLMS Directors block and the `[slms_directors]` shortc
   sudo wp --allow-root --path=/var/www/html config set SLMS_CH_API_KEY "$CH_KEY" --type=constant
   ```
 
-- The list is fetched at most once a day, by a daily cron job. If a fetch fails, the last list stays and it tries again after an hour.
+- The list is fetched once a day, by a daily cron job, so pages don't wait for Companies House. The first page to show it fetches it if there's no list yet. If a fetch fails, the last list stays until the next day's.
 - Names show forenames first, so `LYNCH, Thomas Kevin` is Thomas Kevin Lynch. To show a different name, add it under Settings → Directors, which also shows when the list was last fetched, a preview, and a Refresh now button.
 - Each widget, block or shortcode can show all directors, current only or past only, and with or without dates. Current directors without dates is a plain list of names: `[slms_directors show="current" dates="no"]`. The shortcode also takes `order="desc"` and `bold="no"`.
 
