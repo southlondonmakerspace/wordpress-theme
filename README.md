@@ -99,6 +99,20 @@ The Events widget lists upcoming events from the forum's Public Events calendar,
 - The feed is cached for 15 minutes. If the forum can't be reached, the widget shows no events and tries again after 5 minutes.
 - Each event links to its forum topic. The description is the start of the topic's first post.
 
+### Directors
+
+The Directors widget, the SLMS Directors block and the `[slms_directors]` shortcode list the space's directors, past and present, from Companies House (company 08706591), as "Name (September 2013 – July 2016)", with current directors in bold and "Present".
+
+- It needs a free Companies House REST API key, from [developer.company-information.service.gov.uk](https://developer.company-information.service.gov.uk), set in `wp-config.php`. As the web server can't write to `wp-config.php`, set it as root:
+
+  ```
+  sudo wp --allow-root --path=/var/www/html config set SLMS_CH_API_KEY "$CH_KEY" --type=constant
+  ```
+
+- The list is fetched at most once a day, by a daily cron job. If a fetch fails, the last list stays and it tries again after an hour.
+- Names show forenames first, so `LYNCH, Thomas Kevin` is Thomas Kevin Lynch. To show a different name, add it under Settings → Directors, which also shows when the list was last fetched, a preview, and a Refresh now button.
+- Each widget, block or shortcode can show all directors, current only or past only, and with or without dates. Current directors without dates is a plain list of names: `[slms_directors show="current" dates="no"]`. The shortcode also takes `order="desc"` and `bold="no"`.
+
 ### Discourse Comments
 
 As discourse is the primary forum for discussions we use their [wp-discourse](https://github.com/discourse/wp-discourse) plugin to sync comments through from the Blog category. These are settings we've got within WordPress.
