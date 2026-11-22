@@ -1,7 +1,7 @@
 South London Makerspace
 =======================
 
-The WordPress theme for [South London Makerspace](https://southlondonmakerspace.org). Version 3.0.0, for WordPress 6.3 or later and PHP 7.4 or later.
+The WordPress theme for [South London Makerspace](https://southlondonmakerspace.org). Version 3.0.1, for WordPress 6.3 or later and PHP 7.4 or later.
 
 Development
 ---
