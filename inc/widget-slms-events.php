@@ -54,12 +54,14 @@ class slms_events extends WP_Widget {
 	/**
 	 * The soonest $count events, tidied, always including the next open
 	 * evening, in place of the last of the others if need be, and only one
-	 * open evening. Events are tidied (and their topics fetched) only until
-	 * there are enough.
+	 * open evening. A repeating event, one with the same name as an earlier
+	 * one (whatever its capitals), shows only once, at its next date. Events
+	 * are tidied (and their topics fetched) only until there are enough.
 	 */
 	public function pick( $events, $count ) {
 		$open_evening = null;
 		$others = array();
+		$names = array();
 
 		foreach ( $events as $event ) {
 			if ( $open_evening && count( $others ) >= $count - 1 ) {
@@ -69,7 +71,12 @@ class slms_events extends WP_Widget {
 			$event = $this->tidy( $event );
 
 			if ( ! $this->is_open_evening( $event ) ) {
-				$others[] = $event;
+				$name = mb_strtolower( preg_replace( '/\s+/u', ' ', trim( $event['title'] ) ) );
+
+				if ( ! isset( $names[ $name ] ) ) {
+					$others[] = $event;
+					$names[ $name ] = true;
+				}
 			} elseif ( ! $open_evening ) {
 				$open_evening = $event;
 			}
