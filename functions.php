@@ -353,9 +353,10 @@ add_filter( 'woocommerce_add_to_cart_fragments', function ( $fragments ) {
 } );
 
 /**
- * Opens links to other sites in a new tab: every link on the page, the
- * theme's, the content's, the widgets' and plugins', so they all behave the
- * same. Shown with an icon, and read out as opening a new tab (see main.less).
+ * Marks links to other sites as external: every link on the page, the
+ * theme's, the content's, the widgets' and plugins', so they all look the
+ * same. Shown with an icon, and read out as going to another site (see
+ * main.less).
  */
 add_action( 'template_redirect', function () {
 	if ( ! is_feed() ) {
@@ -369,10 +370,9 @@ function slms_external_links( $html ) {
 
 	while ( $tags->next_tag( 'a' ) ) {
 		$host = wp_parse_url( (string) $tags->get_attribute( 'href' ), PHP_URL_HOST );
-		if ( $host && strcasecmp( $host, $home ) !== 0 ) {
-			$tags->set_attribute( 'target', '_blank' );
-			// No access back to this page from the new one
-			$tags->set_attribute( 'rel', trim( $tags->get_attribute( 'rel' ) . ' noopener' ) );
+		$rel  = (string) $tags->get_attribute( 'rel' );
+		if ( $host && strcasecmp( $host, $home ) !== 0 && ! preg_match( '/(^|\s)external(\s|$)/i', $rel ) ) {
+			$tags->set_attribute( 'rel', trim( $rel . ' external' ) );
 		}
 	}
 
