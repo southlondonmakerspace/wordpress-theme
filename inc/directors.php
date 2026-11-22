@@ -354,8 +354,11 @@ class SLMS_Company_Directors {
 		);
 
 		register_block_type( SLMS_THEME_DIR . '/static/blocks/directors', array(
+			// Nothing at all when there's no list, not an empty box
 			'render_callback' => function ( $attributes ) {
-				return '<div ' . get_block_wrapper_attributes() . '>' . self::render( (array) $attributes ) . '</div>';
+				$html = self::render( (array) $attributes );
+
+				return '' === $html ? '' : '<div ' . get_block_wrapper_attributes() . '>' . $html . '</div>';
 			},
 		) );
 	}
