@@ -35,8 +35,10 @@
 		}
 	}
 
-	// The checkout's payment methods
-	#payment {
+	// The checkout's payment methods, and the account's Add payment method
+	// page's, where WooCommerce's rules name that page's form
+	#payment,
+	#add_payment_method #payment {
 		background: none;
 		border: 1px solid var(--rule);
 		border-radius: var(--radius);
@@ -44,14 +46,15 @@
 		ul.payment_methods {
 			border-bottom-color: var(--rule);
 		}
+	}
 
-		div.payment_box {
-			color: var(--text);
-			background: var(--rule);
+	#payment div.payment_box,
+	#add_payment_method #payment div.payment_box {
+		color: var(--text);
+		background: var(--rule);
 
-			&:before {
-				border-bottom-color: var(--rule);
-			}
+		&:before {
+			border-bottom-color: var(--rule);
 		}
 	}
 

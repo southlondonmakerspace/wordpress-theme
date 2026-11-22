@@ -1169,19 +1169,23 @@ header .hero figcaption details[open] summary {
 .woocommerce table.shop_table td {
   border-top-color: var(--rule);
 }
-.woocommerce #payment {
+.woocommerce #payment,
+.woocommerce #add_payment_method #payment {
   background: none;
   border: 1px solid var(--rule);
   border-radius: var(--radius);
 }
-.woocommerce #payment ul.payment_methods {
+.woocommerce #payment ul.payment_methods,
+.woocommerce #add_payment_method #payment ul.payment_methods {
   border-bottom-color: var(--rule);
 }
-.woocommerce #payment div.payment_box {
+.woocommerce #payment div.payment_box,
+.woocommerce #add_payment_method #payment div.payment_box {
   color: var(--text);
   background: var(--rule);
 }
-.woocommerce #payment div.payment_box:before {
+.woocommerce #payment div.payment_box:before,
+.woocommerce #add_payment_method #payment div.payment_box:before {
   border-bottom-color: var(--rule);
 }
 .woocommerce table.shop_table,
