@@ -282,6 +282,24 @@
 	}
 }
 
+// Supporters' logos in a row that wraps, each the same height
+.sponsors {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1.5em 2.5em;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	img {
+		display: block;
+		width: auto;
+		max-width: 12em;
+		max-height: 4em;
+	}
+}
+
 // Sponsor logos are usually dark artwork on a transparent background, so
 // give them a light card in dark mode to keep them visible
 @media (prefers-color-scheme: dark) {

@@ -87,16 +87,14 @@
 			<?php endif; ?>
 		</header>
 		<?php include slms_template_path(); ?>
-		<?php
-			// Only shown when there is a published Page with the slug "supporters"
-			if ( $supporters = slms_page( 'supporters' ) ) :
-		?>
+		<?php // The Supporter widgets in the Supporters area, if there are any ?>
+		<?php if ( is_active_sidebar( 'slms_supporters' ) ) : ?>
 		<section class="ruled">
 			<div class="wrap">
 				<div class="widgets">
 					<div class="widget widget__large">
 						<h2 class="widgettitle">Supporters</h2>
-						<div class="sponsors"><?php echo apply_filters( 'the_content', $supporters->post_content ); ?></div>
+						<ul class="sponsors"><?php dynamic_sidebar( 'slms_supporters' ); ?></ul>
 					</div>
 				</div>
 			</div>

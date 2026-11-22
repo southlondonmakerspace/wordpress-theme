@@ -13,6 +13,7 @@
 	require SLMS_THEME_DIR . '/inc/widget-slms-forum.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-newsletter.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-quick-links.php';
+	require SLMS_THEME_DIR . '/inc/widget-slms-supporter.php';
 	require SLMS_THEME_DIR . '/inc/directors.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-directors.php';
 
@@ -41,6 +42,8 @@
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 				add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_widget_scripts' ) );
+				add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_widget_scripts' ) );
 				add_filter( 'excerpt_more', array( $this, 'excerpt_more' ) );
 				add_filter( 'body_class', array( $this, 'body_class' ) );
 				add_action( 'after_setup_theme', array( $this, 'image_sizes' ) );
@@ -105,6 +108,26 @@
 				) );
 
 				register_sidebar( array( 'name' => 'Single Post', 'id' => 'slms_single_post' ) + $widgets );
+
+				// One Supporter widget per supporter, their logos shown above the
+				// footer on every page (see base.php)
+				register_sidebar( array(
+					'name'          => 'Supporters',
+					'id'            => 'slms_supporters',
+					'description'   => 'Add a Supporter widget for each supporter, in the order to show them. Their logos show above the footer on every page.',
+					'before_widget' => '<li id="%1$s" class="supporter">',
+					'after_widget'  => '</li>',
+				) );
+			}
+
+			// The Supporter widget's Choose image button, on the Widgets screen
+			// and in the Customizer: the media library and the script that opens it
+			public function enqueue_widget_scripts( $hook = '' ) {
+				if ( 'widgets.php' !== $hook && ! doing_action( 'customize_controls_enqueue_scripts' ) ) {
+					return;
+				}
+				wp_enqueue_media();
+				wp_enqueue_script( 'slms_supporter_widget', SLMS_STATIC_URI . '/js/supporter-widget.js', array(), $this->asset_version( 'static/js/supporter-widget.js' ), true );
 			}
 
 			public function register_nav_menus() {
@@ -180,6 +203,7 @@
 				register_widget( 'slms_facility' );
 				register_widget( 'slms_facilities' );
 				register_widget( 'slms_directors' );
+				register_widget( 'slms_supporter' );
 			}
 
 			// The featured image in the band at the top of the page (see
