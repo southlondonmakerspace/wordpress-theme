@@ -1,0 +1,20 @@
+// The block editor's content in the theme's colours and type, the same rules
+// as the site's (see add_editor_style() in functions.php). WordPress scopes
+// them to the editor, with html, body and :root as its content area.
+
+@import "variables";
+@import "base";
+
+// Always light: the editor has no dark mode of its own, so a dark page
+// would sit in its light frame
+:root,
+body {
+	color-scheme: light;
+	.light-colours();
+}
+
+// The page's text size (see html in base.less), which the editor's content
+// area sets back to 16px itself
+body {
+	font-size: 1rem;
+}

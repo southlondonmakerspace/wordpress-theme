@@ -6,7 +6,7 @@ The WordPress theme for [South London Makerspace](https://southlondonmakerspace.
 Development
 ---
 
-The styles are written in LESS, in `static/less/`, and compiled to `static/css/main.css` and `static/css/steps.css`. WordPress loads those compiled files directly, so compile the LESS and commit the CSS with your changes.
+The styles are written in LESS, in `static/less/`, and compiled to `static/css/main.css`, `static/css/steps.css` and `static/css/editor.css` (the block editor's). WordPress loads those compiled files directly, so compile the LESS and commit the CSS with your changes.
 
 ```
 npm install
@@ -18,6 +18,7 @@ npm run watch
 ```
 npx lessc@2.7 static/less/main.less static/css/main.css
 npx lessc@2.7 static/less/steps.less static/css/steps.css
+npx lessc@2.7 static/less/editor.less static/css/editor.css
 ```
 
 ### Deployment

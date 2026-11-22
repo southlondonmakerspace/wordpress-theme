@@ -27,6 +27,9 @@
 				// WordPress writes the <title> and the feed links in the head
 				add_theme_support( 'title-tag' );
 				add_theme_support( 'automatic-feed-links' );
+				// The block editor shows content in the theme's font and colours
+				add_theme_support( 'editor-styles' );
+				add_editor_style( array( 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600', 'static/css/editor.css' ) );
 				add_filter( 'document_title_separator', array( $this, 'title_separator' ) );
 				add_filter( 'document_title_parts', array( $this, 'title_parts' ) );
 

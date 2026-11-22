@@ -1,5 +1,6 @@
 // The theme's colours and base type: the page's text, links, headings,
-// paragraphs, rules and images (see main.less)
+// paragraphs, rules and images. Shared by the site (main.less) and the
+// block editor (editor.less), so the editor looks like the page.
 
 // Colours that change between light and dark mode. Dark mode follows the
 // visitor's system setting; there is no toggle.
@@ -9,14 +10,19 @@ html {
 	font-size: 112.5%;
 }
 
-:root {
-	color-scheme: light dark;
+// The light mode colours, also the editor's (see editor.less)
+.light-colours() {
 	--link: @accent;
 	--bg: #fff;
 	--text: #000;
 	--rule: #e9e9e9;
 	// 3:1 against the background, as WCAG asks of a field's edge
 	--field-border: #949494;
+}
+
+:root {
+	color-scheme: light dark;
+	.light-colours();
 	// The corners of every field, button and box, the theme's and
 	// WooCommerce's (see woocommerce.less)
 	--radius: 6px;

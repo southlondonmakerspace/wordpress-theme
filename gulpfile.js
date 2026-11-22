@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 
 gulp.task('less', function() {
-	gulp.src(['./static/less/main.less', './static/less/steps.less'])
+	gulp.src(['./static/less/main.less', './static/less/steps.less', './static/less/editor.less'])
 		.pipe(plugins.less())
 		.pipe(plugins.autoprefixer({
 			browsers: ['last 2 versions'],
