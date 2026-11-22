@@ -267,11 +267,11 @@ class SLMS_Company_Directors {
 		return self::title_case( $forenames . ' ' . $surname );
 	}
 
-	// "2013-09-26" as "September 2013"
+	// "2013-09-26" as "September 2013", or "?" if Companies House has no date
 	private static function month( $date ) {
 		$time = $date ? strtotime( $date . ' 12:00:00 UTC' ) : false;
 
-		return $time ? wp_date( 'F Y', $time, new DateTimeZone( 'UTC' ) ) : '';
+		return $time ? wp_date( 'F Y', $time, new DateTimeZone( 'UTC' ) ) : '?';
 	}
 
 	/**
