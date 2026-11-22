@@ -42,7 +42,9 @@
 						} )
 					)
 				),
-				el( ServerSideRender, { block: 'slms/directors', attributes } )
+				// Without the block's spacing and text size, which the div
+				// around it already has, so they aren't applied twice
+				el( ServerSideRender, { block: 'slms/directors', attributes, skipBlockSupportAttributes: true } )
 			);
 		},
 		save: () => null,
