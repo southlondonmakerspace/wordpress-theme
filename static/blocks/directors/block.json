@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "slms/directors",
+	"title": "SLMS Directors",
+	"category": "widgets",
+	"icon": "groups",
+	"description": "Directors past and present, from Companies House.",
+	"attributes": {
+		"show": { "type": "string", "default": "all", "enum": [ "all", "current", "past" ] },
+		"order": { "type": "string", "default": "asc", "enum": [ "asc", "desc" ] },
+		"dates": { "type": "boolean", "default": true }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"spacing": { "margin": true, "padding": true },
+		"typography": { "fontSize": true }
+	},
+	"editorScript": "slms-directors-editor"
+}

@@ -13,6 +13,18 @@
 	require SLMS_THEME_DIR . '/inc/widget-slms-forum.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-newsletter.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-quick-links.php';
+	// The directors list was the SLMS Directors plugin, whose classes clash
+	// with these, so while it's active the theme leaves it to the plugin
+	if ( ! class_exists( 'SLMS_Directors' ) ) {
+		require SLMS_THEME_DIR . '/inc/directors.php';
+		require SLMS_THEME_DIR . '/inc/widget-slms-directors.php';
+	} else {
+		add_action( 'admin_notices', function () {
+			if ( current_user_can( 'activate_plugins' ) ) {
+				echo '<div class="notice notice-warning"><p>The theme now lists the directors itself. Deactivate and delete the SLMS Directors plugin; its settings and list are kept.</p></div>';
+			}
+		} );
+	}
 
 	if ( ! class_exists( 'SLMS_Theme' ) ) {
 		class SLMS_Theme {
@@ -174,6 +186,9 @@
 				register_widget( 'slms_events' );
 				register_widget( 'slms_facility' );
 				register_widget( 'slms_facilities' );
+				if ( class_exists( 'SLMS_Company_Directors' ) ) {
+					register_widget( 'slms_directors' );
+				}
 			}
 
 			// The featured image in the band at the top of the page (see
