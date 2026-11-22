@@ -114,7 +114,7 @@ class slms_facilities extends WP_Widget {
 		// A link to the Facilities page, if there is one and this isn't it
 		$page = slms_page( 'facilities' );
 		if ( $page && ! is_page( $page->ID ) ) {
-			echo slms_more_link( get_permalink( $page ), 'Find out more', 'facilities__more' );
+			echo slms_more_link( get_permalink( $page ), 'Find out more about our facilities', 'facilities__more' );
 		}
 
 		echo $args['after_widget'];
