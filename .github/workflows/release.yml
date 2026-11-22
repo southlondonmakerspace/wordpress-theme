@@ -1,0 +1,35 @@
+# Pushing a version tag, such as v3.0.1, makes a GitHub release for it with
+# the theme attached as a zip, ready to upload in WordPress (Appearance →
+# Themes → Add New Theme → Upload Theme). release.sh bumps the version and
+# pushes the tag. The zip holds the tagged commit's files in a slms-theme
+# folder, without the files only used to develop the theme (see
+# .gitattributes).
+name: Release zip
+
+on:
+  push:
+    tags: [ 'v*' ]
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the zip
+        run: git archive --format=zip --prefix=slms-theme/ -o "slms-theme-$TAG.zip" "$TAG"
+
+      # Or onto the tag's release, if one was already made by hand
+      - name: Make the release
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" "slms-theme-$TAG.zip" --clobber
+          else
+            gh release create "$TAG" "slms-theme-$TAG.zip" --generate-notes --verify-tag
+          fi

@@ -22,7 +22,15 @@ npx lessc@2.7 static/less/steps.less static/css/steps.css
 
 ### Deployment
 
-There is no automatic deployment. To update the site, copy the theme folder to `wp-content/themes/slms-theme/` on the server.
+There is no automatic deployment. To make a release, commit your changes on master, then run:
+
+```
+./release.sh 3.0.1
+```
+
+It sets the version in `style.css`, `package.json` and this README, commits that, tags it `v3.0.1` and pushes. A GitHub Action (`.github/workflows/release.yml`) then makes the release on GitHub, with the theme attached as `slms-theme-v3.0.1.zip`, without the files only used for development (listed in `.gitattributes`). Pushing any `v` tag by hand does the same.
+
+Upload that zip in WordPress under Appearance → Themes → Add New Theme → Upload Theme, or unzip it into `wp-content/themes/` on the server.
 
 ### Featured images
 
