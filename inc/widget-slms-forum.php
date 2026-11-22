@@ -18,9 +18,15 @@ class slms_forum extends WP_Widget {
 			echo '<p>' . nl2br( esc_html( $instance['text'] ) ) . '</p>';
 		}
 
-		// WordPress caches the feed, so the forum isn't fetched on every page load
-		$rss = fetch_feed( SLMS_FORUM_URL . 'latest.rss' );
-		$items = is_wp_error( $rss ) ? array() : $rss->get_items( 0, (int) ( $instance['items'] ?? 3 ) );
+		// WordPress caches the feed, so the forum isn't fetched on every page load.
+		// Not events, such as Public Events, which the Events widget lists.
+		$rss   = fetch_feed( SLMS_FORUM_URL . 'latest.rss' );
+		$items = is_wp_error( $rss ) ? array() : array_filter( $rss->get_items(), function ( $item ) {
+			$category = $item->get_category();
+
+			return ! ( $category && preg_match( '/\bevents$/i', trim( $category->get_label() ) ) );
+		} );
+		$items = array_slice( $items, 0, (int) ( $instance['items'] ?? 3 ) );
 
 			?>
 			<?php echo slms_more_link( SLMS_FORUM_URL, 'Visit our forums' ) ?>
