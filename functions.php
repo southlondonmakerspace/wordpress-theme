@@ -38,6 +38,7 @@
 				add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 				add_filter( 'excerpt_more', array( $this, 'excerpt_more' ) );
 				add_filter( 'body_class', array( $this, 'body_class' ) );
+				add_action( 'after_setup_theme', array( $this, 'image_sizes' ) );
 				add_action( 'after_setup_theme', array( $this, 'woocommerce_setup' ) );
 				add_filter( 'script_loader_src', array( $this, 'remove_query_string_versioning' ) );
 				add_filter( 'style_loader_src', array( $this, 'remove_query_string_versioning' ) );
@@ -171,6 +172,16 @@
 				register_widget( 'slms_events' );
 				register_widget( 'slms_facility' );
 				register_widget( 'slms_facilities' );
+			}
+
+			// The featured image in the band at the top of the page (see
+			// base.php), cropped from the middle to the band's shape, 2560 × 1100,
+			// in smaller copies for smaller screens. See the README for what to
+			// upload.
+			public function image_sizes() {
+				foreach ( array( 2560, 1920, 1280, 768 ) as $width ) {
+					add_image_size( 'slms-band-' . $width, $width, round( $width * 1100 / 2560 ), true );
+				}
 			}
 
 			// Shop pages use woocommerce.php, which shows the title in the page's
