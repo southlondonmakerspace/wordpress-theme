@@ -30,7 +30,8 @@ sed -i.bak -E "s/^(  \"version\": \")[^\"]*/\1$version/" package.json
 sed -i.bak -E "s/^(The WordPress theme for .* Version )[0-9.]+,/\1$version,/" README.md
 rm style.css.bak package.json.bak README.md.bak
 
-git commit -q -m "Releases $version" style.css package.json README.md
+# Nothing to commit when the files already have this version
+git diff --quiet || git commit -q -m "Releases $version" style.css package.json README.md
 git tag -a "v$version" -m "Version $version"
 git push --atomic origin master "v$version"
 echo "Pushed v$version. GitHub is building the release: https://github.com/southlondonmakerspace/wordpress-theme/releases"
