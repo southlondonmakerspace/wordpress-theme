@@ -87,19 +87,6 @@
 			<?php endif; ?>
 		</header>
 		<?php include slms_template_path(); ?>
-		<?php // The Supporter widgets in the Supporters area, if there are any ?>
-		<?php if ( is_active_sidebar( 'slms_supporters' ) ) : ?>
-		<section class="ruled">
-			<div class="wrap">
-				<div class="widgets">
-					<div class="widget widget__large">
-						<h2 class="widgettitle">Supporters</h2>
-						<ul class="sponsors"><?php dynamic_sidebar( 'slms_supporters' ); ?></ul>
-					</div>
-				</div>
-			</div>
-		</section>
-		<?php endif; ?>
 		<?php
 			$find_us      = slms_page_url( 'find-us' );
 			$open_evening = ( new slms_events() )->next_open_evening();
@@ -134,6 +121,13 @@
 		<section class="wrap ruled">
 			<?php slms_social_links() ?>
 		</section>
+		<?php // The Supporter widgets in the Supporters area, if there are any ?>
+		<?php if ( is_active_sidebar( 'slms_supporters' ) ) : ?>
+		<section class="wrap ruled">
+			<h2>Supporters</h2>
+			<ul class="sponsors"><?php dynamic_sidebar( 'slms_supporters' ); ?></ul>
+		</section>
+		<?php endif; ?>
 		<section class="wrap ruled">
 			<p>&copy;2013&mdash;<?php echo date( 'Y' ); ?> South London Makerspace</p>
 			<p>Proud to be part of the London <a href="http://openworkshopnetwork.com/">Open Workshop Network</a></p>
