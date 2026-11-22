@@ -522,6 +522,13 @@ textarea {
   display: block;
   resize: vertical;
 }
+select:not([multiple]) {
+  padding-right: 2em;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 1.05em center, right .75em center;
+  background-size: .3em .3em;
+  background-repeat: no-repeat;
+}
 input[type="email"]:focus {
   outline: 0.15em solid var(--link);
 }
