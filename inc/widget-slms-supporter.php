@@ -2,7 +2,7 @@
 
 /**
  * One supporter's logo, linking to their site, for the Supporters area shown
- * above the footer on every page (see base.php). Add one widget per
+ * in the front page's footer (see base.php). Add one widget per
  * supporter. The image is a URL: upload or choose one with the Choose image
  * button, or paste one.
  */

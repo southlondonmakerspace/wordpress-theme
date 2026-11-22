@@ -121,8 +121,8 @@
 		<section class="wrap ruled">
 			<?php slms_social_links() ?>
 		</section>
-		<?php // The Supporter widgets in the Supporters area, if there are any ?>
-		<?php if ( is_active_sidebar( 'slms_supporters' ) ) : ?>
+		<?php // The Supporter widgets in the Supporters area, if there are any, on the front page ?>
+		<?php if ( is_front_page() && is_active_sidebar( 'slms_supporters' ) ) : ?>
 		<section class="wrap ruled">
 			<h2>Supporters</h2>
 			<ul class="sponsors"><?php dynamic_sidebar( 'slms_supporters' ); ?></ul>

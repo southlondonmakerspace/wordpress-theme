@@ -109,12 +109,12 @@
 
 				register_sidebar( array( 'name' => 'Single Post', 'id' => 'slms_single_post' ) + $widgets );
 
-				// One Supporter widget per supporter, their logos shown above the
-				// footer on every page (see base.php)
+				// One Supporter widget per supporter, their logos shown in the
+				// front page's footer (see base.php)
 				register_sidebar( array(
 					'name'          => 'Supporters',
 					'id'            => 'slms_supporters',
-					'description'   => 'Add a Supporter widget for each supporter, in the order to show them. Their logos show above the footer on every page.',
+					'description'   => 'Add a Supporter widget for each supporter, in the order to show them. Their logos show in the footer of the front page, before the copyright.',
 					'before_widget' => '<li id="%1$s" class="supporter">',
 					'after_widget'  => '</li>',
 				) );
