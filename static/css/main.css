@@ -500,7 +500,7 @@ header + section:before {
   padding: .6em 2em;
   font-size: 1.25em;
 }
-input,
+input:where(:not([type="checkbox"], [type="radio"])),
 textarea,
 select,
 button {
@@ -510,7 +510,7 @@ button {
   appearance: none;
   border-radius: var(--radius);
 }
-input,
+input:where(:not([type="checkbox"], [type="radio"])),
 textarea,
 select {
   width: 100%;

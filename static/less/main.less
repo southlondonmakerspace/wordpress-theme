@@ -648,7 +648,11 @@ body {
 	}
 }
 
-input,
+// Not checkboxes or radio buttons, which keep the browser's own look. In
+// :where() so it's no stronger than input alone.
+@fields: ~'input:where(:not([type="checkbox"], [type="radio"]))';
+
+@{fields},
 textarea,
 select,
 button {
@@ -661,7 +665,7 @@ button {
 
 // Text fields: full width, in the page's colours, with a thin border.
 // Not buttons, which plugins size themselves.
-input,
+@{fields},
 textarea,
 select {
 	width: 100%;
