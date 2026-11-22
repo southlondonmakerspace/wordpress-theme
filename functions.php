@@ -12,7 +12,6 @@
 	require SLMS_THEME_DIR . '/inc/widget-slms-facility.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-forum.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-newsletter.php';
-	require SLMS_THEME_DIR . '/inc/widget-slms-quick-links.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-supporter.php';
 	require SLMS_THEME_DIR . '/inc/directors.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-directors.php';
@@ -133,7 +132,6 @@
 			public function register_nav_menus() {
 				register_nav_menus( array(
 					'slms_home_links'	=>	'Homepage Links',
-					'slms_quick_links'	=>	'Quick Links',
 					// The footer's last column, headed with the menu's name
 					'slms_footer_links'	=>	'Footer Links'
 				) );
@@ -196,7 +194,6 @@
 
 			public function register_widgets() {
 				register_widget( 'slms_newsletter' );
-				register_widget( 'slms_quick_links' );
 				register_widget( 'slms_forum' );
 				register_widget( 'slms_blog' );
 				register_widget( 'slms_events' );
