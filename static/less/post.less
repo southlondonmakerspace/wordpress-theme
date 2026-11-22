@@ -334,6 +334,19 @@ header .hero {
 			margin-right: 0;
 		}
 
+		// Including images resized in the editor, which sets their width on
+		// the image itself
+		img[style*="width"] {
+			width: 100% !important;
+		}
+
+		// A caption under its image, the full width. WordPress shows an
+		// aligned image's as a table caption, the image's width, which
+		// without the table around it is one word wide.
+		.wp-block-image figcaption {
+			display: block;
+		}
+
 		iframe,
 		video,
 		embed,

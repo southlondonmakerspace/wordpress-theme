@@ -858,6 +858,12 @@ header .hero figcaption details[open] summary {
     margin-left: 0;
     margin-right: 0;
   }
+  .post img[style*="width"] {
+    width: 100% !important;
+  }
+  .post .wp-block-image figcaption {
+    display: block;
+  }
   .post iframe,
   .post video,
   .post embed,
