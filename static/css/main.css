@@ -847,6 +847,27 @@ header .hero figcaption details[open] summary {
 .post li {
   max-width: 44.5em;
 }
+@media screen and (width < 48em) {
+  .post figure,
+  .post img,
+  .post .alignleft,
+  .post .alignright {
+    display: block;
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .post iframe,
+  .post video,
+  .post embed,
+  .post object {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto 16 / 9;
+  }
+}
 .nav-links {
   padding: 1em;
   display: flex;

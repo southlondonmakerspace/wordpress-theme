@@ -318,6 +318,34 @@ header .hero {
 	}
 }
 
+// On phones a post's images and embeds, such as videos and maps, fill the
+// column, rather than floating beside narrow text. An embed keeps its video's
+// shape, or 16:9 where it has none.
+@media screen and @to_lap {
+	.post {
+		figure,
+		img,
+		.alignleft,
+		.alignright {
+			display: block;
+			float: none;
+			width: 100%;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		iframe,
+		video,
+		embed,
+		object {
+			display: block;
+			width: 100%;
+			height: auto;
+			aspect-ratio: ~'auto 16 / 9';
+		}
+	}
+}
+
 
 .nav-links {
 	padding: 1em;
