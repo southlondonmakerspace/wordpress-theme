@@ -385,6 +385,27 @@ body {
 		.current-menu-item > a {
 			box-shadow: inset 4px 0 @accent;
 		}
+
+		// Sub-items: rows under their item, set in, always shown, so no
+		// arrow buttons (see menu.js)
+		.sub-menu-toggle {
+			display: none;
+		}
+
+		.sub-menu {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.sub-menu li {
+			border: 0;
+			border-top: 1px solid var(--rule);
+		}
+
+		.menu .sub-menu a {
+			padding-left: 2em;
+		}
 	}
 
 	// Wide screens: the links in one row beside the page title, ending where
@@ -420,7 +441,8 @@ body {
 		}
 
 		.menu a:hover,
-		.menu .current-menu-item > a {
+		.menu .current-menu-item > a,
+		.menu .current-menu-ancestor > a {
 			border-bottom-color: @accent;
 		}
 
@@ -429,6 +451,122 @@ body {
 		.has-featured-image & a:visited {
 			color: ~"rgb(var(--on-fade))";
 			text-shadow: 0 1px 3px var(--on-fade-shadow);
+		}
+
+		// Sub-items: a box that drops down below their item while it's hovered
+		// over, while it or its links have the keyboard's focus, or when its
+		// arrow button opens it (see menu.js); Escape closes it (is-closed).
+		// Hidden, it's only transparent, so screen readers still read its
+		// links, and tabbing to one shows it.
+		.menu-item-has-children {
+			position: relative;
+
+			&:hover > .sub-menu,
+			&:focus-within > .sub-menu,
+			&.is-open > .sub-menu {
+				opacity: 1;
+				pointer-events: auto;
+			}
+
+			&.is-closed > .sub-menu {
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			// Near the screen's right edge, lined up with its item's right
+			&.sub-menu-end > .sub-menu {
+				left: auto;
+				right: -1em;
+			}
+		}
+
+		// The arrow button after the item, the same colour as its link, and
+		// turned over when the sub-menu shows
+		.sub-menu-toggle {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			// At least 24px across (WCAG's target size)
+			width: 1.4em;
+			height: 1.4em;
+			margin-left: .1em;
+			padding: 0;
+			border: 0;
+			border-radius: var(--radius);
+			vertical-align: middle;
+			color: var(--text);
+			background: none;
+			cursor: pointer;
+
+			.has-featured-image & {
+				color: ~"rgb(var(--on-fade))";
+				filter: drop-shadow(0 1px 2px var(--on-fade-shadow));
+			}
+
+			&[aria-expanded="true"] .icon {
+				rotate: 180deg;
+			}
+
+			@media (prefers-reduced-motion: no-preference) {
+				.icon {
+					transition: rotate .15s;
+				}
+			}
+		}
+
+		.sub-menu {
+			position: absolute;
+			// Just below the item's underline, with an invisible strip across
+			// the gap so the pointer can move into it without it closing
+			top: calc(~"100% + .4em");
+			// Its links' text in line with their item's
+			left: -1em;
+			z-index: 1;
+			min-width: 100%;
+			padding: .4em 0;
+			background: var(--bg);
+			border: 1px solid var(--rule);
+			border-radius: var(--radius);
+			box-shadow: 0 .4em 1.2em rgba(0, 0, 0, .15);
+			opacity: 0;
+			pointer-events: none;
+			// Long names wrap rather than run off the screen
+			width: max-content;
+			max-width: 16em;
+			white-space: normal;
+
+			@media (prefers-reduced-motion: no-preference) {
+				transition: opacity .15s;
+			}
+
+			&:before {
+				content: '';
+				position: absolute;
+				bottom: 100%;
+				left: 0;
+				right: 0;
+				height: .5em;
+			}
+
+			li {
+				display: block;
+				margin: 0;
+			}
+
+			// On the box's own background, so not as over a featured image
+			a:link,
+			a:visited {
+				display: block;
+				padding: .4em 1em;
+				border-bottom: 0;
+				color: var(--text);
+				text-shadow: none;
+			}
+
+			a:hover,
+			.current-menu-item > a {
+				color: var(--link);
+			}
 		}
 	}
 }
