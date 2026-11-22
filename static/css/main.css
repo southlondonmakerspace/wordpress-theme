@@ -484,7 +484,7 @@ header + section:before {
 #intro {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1em 2em;
   padding-right: 1em;
