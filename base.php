@@ -81,7 +81,7 @@
 						echo get_the_post_thumbnail( get_queried_object_id(), $band, array( 'sizes' => '(max-width: 69em) max(100vw, 755px), max(100vw, 1676px)', 'loading' => false, 'fetchpriority' => 'high' ) );
 					?>
 					<?php if ( $caption = get_the_post_thumbnail_caption( get_queried_object_id() ) ) : ?>
-						<?php slms_hero_caption( esc_html( $caption ), 'Image caption', 'camera' ); ?>
+						<?php slms_hero_caption( nl2br( esc_html( $caption ) ), 'Image caption', 'camera' ); ?>
 					<?php endif; ?>
 				</figure>
 			<?php endif; ?>
