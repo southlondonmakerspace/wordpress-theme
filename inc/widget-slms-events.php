@@ -36,9 +36,6 @@ class slms_events extends WP_Widget {
 				 --><article class="post post__event">
 						<header>
 							<h3 class="h2"><a href="<?php echo esc_url( $event['url'] ) ?>"><?php echo esc_html( $event['title'] ) ?></a></h3>
-							<?php foreach ( $event['labels'] as $label ) : ?>
-								<span><?php echo esc_html( $label ) ?></span>
-							<?php endforeach ?>
 							<time datetime="<?php echo esc_attr( $event['start']->format( DATE_W3C ) ) ?>"><?php echo esc_html( wp_date( $event['all_day'] ? 'l, jS F' : 'l, jS F \f\r\o\m H:i', $event['start']->getTimestamp() ) ) ?></time>
 						</header>
 						<?php if ( $event['description'] ) : ?>
@@ -130,45 +127,19 @@ class slms_events extends WP_Widget {
 
 		return array_merge( $event, array(
 			'title'       => $title ? $title : $event['title'],
+			// Only to tell open evenings (see is_open_evening())
 			'tags'        => $topic['tags'],
-			// The topic's tags, in title case (public-event is Public Event), or
-			// for an untagged topic, its forum category, such as Courses
-			'labels'      => $topic['tags'] ? array_map( function ( $tag ) {
-				return ucwords( str_replace( array( '-', '_' ), ' ', $tag ) );
-			}, $topic['tags'] ) : array_filter( array( $this->forum_category( $event['url'], $topic['category'] ?? 0 ) ) ),
 			'description' => $summary ? $summary : SLMS_Event_Text::summary_from_text( $event['description'], $event['title'] ),
 		) );
 	}
 
 	/**
-	 * The name of a forum category, from the forum the address is on and the
-	 * category's number. Cached for a day, or briefly if the fetch fails.
-	 */
-	public function forum_category( $url, $id ) {
-		if ( ! $id || ! preg_match( '#^https?://[^/]+#', $url, $m ) ) {
-			return '';
-		}
-
-		$key  = 'slms_event_category_' . md5( $m[0] . $id );
-		$name = get_transient( $key );
-
-		if ( false === $name ) {
-			$json = $this->fetch_json( $m[0] . '/c/' . (int) $id . '/show.json' );
-			$name = (string) ( $json['category']['name'] ?? '' );
-
-			set_transient( $key, $name, $name ? DAY_IN_SECONDS : 15 * MINUTE_IN_SECONDS );
-		}
-
-		return $name;
-	}
-
-	/**
-	 * A forum topic's tags, category and the HTML of its first post, from its address,
+	 * A forum topic's tags and the HTML of its first post, from its address,
 	 * such as https://discourse.example.org/t/open-evening/53852. Cached; a
 	 * failed fetch is cached briefly, as an empty topic.
 	 */
 	public function forum_topic( $url ) {
-		$empty = array( 'html' => '', 'category' => 0, 'tags' => array() );
+		$empty = array( 'html' => '', 'tags' => array() );
 
 		if ( ! preg_match( '#^(https?://[^/]+)/t/(?:[^/]+/)?(\d+)#', $url, $m ) ) {
 			return $empty;
@@ -181,7 +152,6 @@ class slms_events extends WP_Widget {
 			$json = $this->fetch_json( $m[1] . '/t/' . $m[2] . '.json' );
 			$topic = $json ? array(
 				'html'     => $json['post_stream']['posts'][0]['cooked'] ?? '',
-				'category' => (int) ( $json['category_id'] ?? 0 ),
 				// Names, or in newer versions of Discourse, objects with a name
 				'tags' => array_map( function ( $tag ) {
 					return is_array( $tag ) ? $tag['name'] : $tag;
