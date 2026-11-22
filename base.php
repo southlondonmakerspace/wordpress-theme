@@ -107,7 +107,7 @@
 					<p>The way to look round and meet members.</p>
 					<?php if ( $open_evening ) : ?>
 						<p>Next: <?php echo esc_html( wp_date( 'l, jS F', $open_evening['start']->getTimestamp() ) ) ?><br><?php echo esc_html( wp_date( 'H:i', $open_evening['start']->getTimestamp() ) . '–' . wp_date( 'H:i', $open_evening['end']->getTimestamp() ) ) ?></p>
-						<p><?php echo slms_more_link( $open_evening['url'], 'Event details' ) ?></p>
+						<p><?php echo slms_more_link( $open_evening['url'], 'Open evening details' ) ?></p>
 					<?php endif ?>
 				</div>
 				<?php if ( $menu ) : ?>
