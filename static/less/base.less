@@ -1,0 +1,143 @@
+// The theme's colours and base type: the page's text, links, headings,
+// paragraphs, rules and images (see main.less)
+
+// Colours that change between light and dark mode. Dark mode follows the
+// visitor's system setting; there is no toggle.
+// Text a little larger than the browser's 16px, as Source Sans Pro is small
+// for its size: 18px. Everything in em and rem grows with it, as with zoom.
+html {
+	font-size: 112.5%;
+}
+
+:root {
+	color-scheme: light dark;
+	--link: @accent;
+	--bg: #fff;
+	--text: #000;
+	--rule: #e9e9e9;
+	// 3:1 against the background, as WCAG asks of a field's edge
+	--field-border: #949494;
+	// The corners of every field, button and box, the theme's and
+	// WooCommerce's (see woocommerce.less)
+	--radius: 6px;
+	// The fade behind the menu over a featured image, and the text on it,
+	// as r, g, b: dark with white text in both modes, to suit any photo
+	--fade: 0, 0, 0;
+	--fade-strength: .75;
+	--on-fade: 255, 255, 255;
+	--on-fade-shadow: rgba(0, 0, 0, .6);
+}
+
+// Except the front-page map, which is pale in light mode, so fades to white
+@media (prefers-color-scheme: light) {
+	.home {
+		--fade: 255, 255, 255;
+		--fade-strength: .5;
+		--on-fade: 0, 0, 0;
+		--on-fade-shadow: transparent;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #171614;
+		--text: #ebe7e1;
+		--rule: #34312d;
+		--field-border: #6f6a63;
+		// The theme's red is too dark to read here; pure red is 4.5:1
+		--link: red;
+	}
+}
+
+::selection {
+	color: @on_accent;
+	background: @accent;
+}
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: @fontstack_sans;
+	font-weight: 400;
+	margin: 0;
+	line-height: 1.4;
+}
+
+	a {
+		&:link,
+		&:visited {
+			color: var(--link);
+			text-decoration: none;
+			font-weight: 600;
+		}
+
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+
+	// Links set to open a new tab are read out as doing so
+	a[target="_blank"]:after {
+		content: '' / ' (opens in a new tab)';
+	}
+
+	// Links to other sites (see slms_external_links() in functions.php), but
+	// for buttons and links with their own icon or image, have a small arrow
+	// out of a box after them. The first `content` is for browsers without
+	// alternative text for it.
+	@external: ~':is(main, footer, .hero) a[rel~="external"]:not(.btn, :has(img, svg))';
+	@external_on_band: ~'.hero a[rel~="external"]:not(.btn, :has(img, svg))';
+
+	@{external}:after {
+		content: '';
+		content: '' / ' (external site)';
+		display: inline-block;
+		width: .7em;
+		height: .7em;
+		margin-left: .25em;
+		// Grey, not the link's colour: the text colour, faded, as the .links
+		// dashes are. On the band's captions, their own white, faded.
+		background: var(--text);
+		opacity: .5;
+		// Font Awesome Free 7.3.1's arrow-up-right-from-square, CC BY 4.0
+		mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0-201.4 201.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3 448 192c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 96C35.8 96 0 131.8 0 176L0 432c0 44.2 35.8 80 80 80l256 0c44.2 0 80-35.8 80-80l0-80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 80c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l80 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 96z'/%3E%3C/svg%3E") center / contain no-repeat;
+	}
+
+	@{external}[target="_blank"]:after {
+		content: '' / ' (external site, opens in a new tab)';
+	}
+
+	@{external_on_band}:after {
+		background: currentColor;
+	}
+
+	h1,
+	h2,
+	h3 {
+		font-weight: 600;
+	}
+
+	h1 {
+		font-size: 1.5em;
+	}
+
+	p {
+		margin: 0 0 1em;
+	}
+
+	// Also WordPress's separator block, which sets its own border and opacity
+	hr,
+	hr.wp-block-separator {
+		height: 0;
+		border: 0;
+		// Grey in either mode, as the .links dashes are: the text colour, faded
+		border-top: 1px solid currentColor;
+		opacity: .5;
+		margin: 2.5em 0;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+	}
