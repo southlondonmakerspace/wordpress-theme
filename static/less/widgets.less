@@ -282,21 +282,22 @@
 	}
 }
 
-// Supporters' logos in a row that wraps, each the same height
+// Supporters' logos in a row that wraps, each fitted into the same box, so
+// they line up whatever their shape
 .sponsors {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 1.5em 2.5em;
+	gap: 1.5em 2em;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 
 	img {
 		display: block;
-		width: auto;
-		max-width: 12em;
-		max-height: 4em;
+		width: 12em;
+		height: 5em;
+		object-fit: contain;
 	}
 }
 
