@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function slms_template_path() {
 	return SLMS_Wrapping::$main_template;
@@ -9,24 +9,12 @@ class SLMS_Wrapping {
 	 * Stores the full path to the main template file
 	 */
 	static $main_template;
-	/**
-	 * Stores the base name of the template file; e.g. 'page' for 'page.php' etc.
-	 */
-	static $base;
 
+	// Every page is base.php, which includes the template WordPress chose
 	static function wrap( $template ) {
 		self::$main_template = $template;
-		self::$base = substr( basename( self::$main_template ), 0, -4 );
 
-		if ( 'index' == self::$base )
-			self::$base = false;
-
-		$templates = array( 'base.php' );
-
-		if ( self::$base )
-			array_unshift( $templates, sprintf( 'wrapper-%s.php', self::$base ) );
-
-		return locate_template( $templates );
+		return locate_template( 'base.php' );
 	}
 }
 add_filter( 'template_include', array( 'SLMS_Wrapping', 'wrap' ), 99 );

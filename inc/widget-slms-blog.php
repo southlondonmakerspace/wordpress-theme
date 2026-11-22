@@ -7,7 +7,7 @@ class slms_blog extends WP_Widget {
 
 	public function widget( $args, $instance ) {
 
-		$number_of_posts = isset( $instance['posts'] ) && is_numeric( intval( $instance['posts'] ) ) ? intval( $instance['posts'] ) : 3;
+		$number_of_posts = isset( $instance['posts'] ) ? intval( $instance['posts'] ) : 3;
 
 		// Not the post being read, if it's a post page
 		$current = is_single() ? get_queried_object_id() : 0;
