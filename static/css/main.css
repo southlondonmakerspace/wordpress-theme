@@ -1341,6 +1341,11 @@ table.wc-block-cart-items .wc-block-cart-items__row .wc-block-components-product
   max-width: none;
   padding: 0;
 }
+@media screen and (width > 768px) {
+  #content .woocommerce table.cart td.actions .coupon .input-text {
+    width: 12em;
+  }
+}
 @media (prefers-color-scheme: dark) {
   .woocommerce form .show-password-input:before {
     filter: invert(1);

@@ -284,6 +284,16 @@ table.wc-block-cart-items .wc-block-cart-items__row .wc-block-components-product
 	padding: 0;
 }
 
+// The classic basket's coupon field, which WooCommerce makes 80px wide: too
+// narrow for "Coupon code". Its rule names #content, the page's main, so
+// this does too, to outweigh it. On phones WooCommerce makes it half the
+// row.
+@media screen and @above_woocommerce_small_screen {
+	#content .woocommerce table.cart td.actions .coupon .input-text {
+		width: 12em;
+	}
+}
+
 // The password field's show/hide eye is a dark image, so lighten it to the
 // text colour in dark mode
 @media (prefers-color-scheme: dark) {
