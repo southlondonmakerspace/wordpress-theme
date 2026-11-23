@@ -52,6 +52,11 @@ function slms_hero_embed_url( $id ) {
 	return (string) get_post_meta( $id, '_slms_hero_embed', true );
 }
 
+// Where the map's pin links to: the address set, or the Find us page
+function slms_hero_pin( $id ) {
+	return (string) get_post_meta( $id, '_slms_hero_pin', true ) ?: slms_page_url( 'find-us' );
+}
+
 // The gallery's images, as attachment IDs in order
 function slms_hero_gallery( $id ) {
 	$ids = array_map( 'intval', explode( ',', (string) get_post_meta( $id, '_slms_hero_gallery', true ) ) );
@@ -121,6 +126,7 @@ function slms_hero_meta_box( $post ) {
 	<?php // Each choice's own field shows only when it's chosen, without JavaScript ?>
 	<style>
 		#slms_hero .slms-hero-field { display: none; margin-top: 1em; }
+		#slms_hero:has([value="map"]:checked) .slms-hero-map,
 		#slms_hero:has([value="embed"]:checked) .slms-hero-embed,
 		#slms_hero:has([value="gallery"]:checked) .slms-hero-gallery { display: block; }
 		#slms_hero .slms-hero-images { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 .5em; }
@@ -133,6 +139,11 @@ function slms_hero_meta_box( $post ) {
 			<?php echo esc_html( $label ) ?>
 		</label>
 	<?php endforeach ?>
+	<p class="slms-hero-field slms-hero-map">
+		<label for="slms_hero_pin">Pin link</label>
+		<input type="url" class="widefat" id="slms_hero_pin" name="slms_hero_pin" value="<?php echo esc_attr( get_post_meta( $post->ID, '_slms_hero_pin', true ) ) ?>" placeholder="<?php echo esc_attr( slms_page_url( 'find-us' ) ) ?>">
+		<span class="description">Where clicking the pin goes. Empty for the Find us page.</span>
+	</p>
 	<p class="slms-hero-field slms-hero-embed">
 		<label for="slms_hero_embed">Address or iframe code</label>
 		<textarea class="widefat" id="slms_hero_embed" name="slms_hero_embed" rows="3"><?php echo esc_textarea( slms_hero_embed_url( $post->ID ) ) ?></textarea>
@@ -180,6 +191,8 @@ add_action( 'save_post', function ( $post_id ) {
 		$embed = $tags->next_tag( 'iframe' ) ? (string) $tags->get_attribute( 'src' ) : '';
 	}
 	$save( '_slms_hero_embed', esc_url_raw( $embed, array( 'https', 'http' ) ) );
+
+	$save( '_slms_hero_pin', esc_url_raw( trim( wp_unslash( $_POST['slms_hero_pin'] ?? '' ) ), array( 'https', 'http' ) ) );
 
 	$gallery = array_filter( array_map( 'absint', explode( ',', $_POST['slms_hero_gallery'] ?? '' ) ) );
 	$save( '_slms_hero_gallery', implode( ',', $gallery ) );

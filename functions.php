@@ -190,12 +190,14 @@
 				wp_register_script( 'pmtiles', SLMS_STATIC_URI . '/vendor/pmtiles/pmtiles.js', array(), self::PMTILES_VERSION, $defer );
 				wp_register_script( 'slms_map_style', SLMS_STATIC_URI . '/js/map-style.js', array(), $this->asset_version( 'static/js/map-style.js' ), $defer );
 				wp_enqueue_script( 'slms_main', SLMS_STATIC_URI . '/js/main.js', array( 'maplibre-gl', 'pmtiles', 'slms_map_style' ), $this->asset_version( 'static/js/main.js' ), $defer );
-				// The map's files, the Find us page its pin links to, if published,
-				// and its zoom buttons' icons
+				// The map's files, where its pin links to (the page's Pin link, or
+				// the Find us page if published), and its zoom buttons' icons
+				$pin = slms_hero_pin( get_queried_object_id() );
 				wp_localize_script( 'slms_main', 'slmsMap', array(
-					'base'   => SLMS_STATIC_URI . '/map',
-					'findUs' => slms_page_url( 'find-us' ),
-					'icons'  => array( 'plus' => slms_icon( 'plus' ), 'minus' => slms_icon( 'minus' ) ),
+					'base'     => SLMS_STATIC_URI . '/map',
+					'pin'      => $pin,
+					'pinLabel' => slms_page_url( 'find-us' ) === $pin ? 'Find us' : 'South London Makerspace',
+					'icons'    => array( 'plus' => slms_icon( 'plus' ), 'minus' => slms_icon( 'minus' ) ),
 				) );
 			}
 

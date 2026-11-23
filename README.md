@@ -81,7 +81,7 @@ The map at the top of the front page uses [MapLibre GL](https://maplibre.org) wi
 | `static/js/main.js` | Creates the map, the zoom buttons and the marker |
 | `static/vendor/` | Copies of MapLibre GL 5.24.1 and PMTiles 4.5.0, and Font Awesome Free 7.3.1 for the Facility widget's icons |
 
-The marker is MapLibre's standard pin in red. It links to the Find us page (a published page with the slug `find-us`), or, without that page, clicking it shows the space's name. The pin, its position, the map centre and the zoom level are all set in `static/js/main.js`.
+The marker is MapLibre's standard pin in red. It links to the page's **Pin link**, set in the Hero box when Map is chosen, or else to the Find us page (a published page with the slug `find-us`). Without either, clicking it shows the space's name. The pin, its position, the map centre and the zoom level are all set in `static/js/main.js`.
 
 #### Changing the colours
 

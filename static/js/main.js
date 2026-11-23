@@ -75,14 +75,14 @@
 			.setLngLat( location )
 			.addTo( map );
 
-		// The pin links to the Find us page: a real link around the pin's image,
-		// so it works from the keyboard and opens in a new tab. Without the page,
-		// it shows the space's name instead.
-		if ( slmsMap.findUs ) {
+		// The pin links to the page's Pin link, or the Find us page: a real link
+		// around the pin's image, so it works from the keyboard and opens in a
+		// new tab. Without either, it shows the space's name instead.
+		if ( slmsMap.pin ) {
 			const pin = marker.getElement();
 			const link = document.createElement( 'a' );
-			link.href = slmsMap.findUs;
-			link.setAttribute( 'aria-label', 'Find us' );
+			link.href = slmsMap.pin;
+			link.setAttribute( 'aria-label', slmsMap.pinLabel );
 			link.append( ...pin.childNodes );
 			pin.append( link );
 		} else {
