@@ -656,12 +656,56 @@ header .hero img {
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     header .hero img,
-    header .hero .maplibregl-canvas-container {
+    header .hero .maplibregl-canvas-container,
+    header .hero.hero--embed iframe {
       animation: hero-parallax linear both;
       animation-timeline: scroll(root);
       animation-range: 0 100vh;
     }
   }
+}
+header .hero.hero--embed {
+  background: #000;
+}
+header .hero.hero--embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+header .hero.hero--gallery ul {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+header .hero.hero--gallery ul li {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+}
+header .hero.hero--gallery ul:focus-visible {
+  outline: none;
+}
+header .hero.hero--gallery:has(ul:focus-visible):after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 3em 0;
+  box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 5px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+@media screen and (width > 69em) {
+  header .hero.hero--gallery:has(ul:focus-visible):after {
+    bottom: 6em;
+  }
+}
+header .hero.hero--gallery figcaption details span {
+  white-space: pre-line;
 }
 header .hero figcaption {
   position: absolute;
@@ -686,13 +730,15 @@ header .hero figcaption details {
 }
 header .hero figcaption summary,
 header .hero figcaption span,
-header .hero figcaption .zoom button {
+header .hero figcaption .zoom button,
+header .hero figcaption .arrows > button {
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
   border-radius: var(--radius);
 }
 header .hero figcaption summary,
-header .hero figcaption .zoom button {
+header .hero figcaption .zoom button,
+header .hero figcaption .arrows > button {
   display: flex;
   padding: .4em;
 }
@@ -703,27 +749,64 @@ header .hero figcaption summary {
 header .hero figcaption summary::-webkit-details-marker {
   display: none;
 }
-header .hero figcaption .zoom {
-  display: flex;
-  gap: 1px;
-}
 @media screen and (width <= 69em) {
   header .hero figcaption .zoom {
     display: none;
   }
 }
-header .hero figcaption .zoom button {
+header .hero figcaption .zoom,
+header .hero figcaption .arrows {
+  display: flex;
+  gap: 1px;
+}
+header .hero figcaption .zoom > button,
+header .hero figcaption .arrows > button {
   border: 0;
-  border-radius: var(--radius) 0 0 var(--radius);
+  border-radius: 0;
   color: inherit;
   cursor: pointer;
 }
-header .hero figcaption .zoom button + button {
+header .hero figcaption .zoom > button:first-child,
+header .hero figcaption .arrows > button:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+header .hero figcaption .zoom > button:last-child,
+header .hero figcaption .arrows > button:last-child {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
-header .hero figcaption .zoom button:disabled {
+header .hero figcaption .zoom > button:disabled,
+header .hero figcaption .arrows > button:disabled {
   opacity: .4;
   cursor: default;
+}
+header .hero figcaption .dots {
+  display: flex;
+  padding: 0 .2em;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+}
+header .hero figcaption .dots button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 2.05em;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+header .hero figcaption .dots button:before {
+  content: '';
+  width: .5em;
+  height: .5em;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+header .hero figcaption .dots button[aria-current="true"]:before {
+  width: 1.1em;
+  border-radius: .25em;
+  background: #fff;
 }
 header .hero figcaption a {
   color: inherit;
@@ -766,6 +849,9 @@ header .hero figcaption details[open] summary {
 }
 #map figcaption summary .icon {
   scale: .85;
+}
+.hero--gallery figcaption .icon {
+  scale: .7;
 }
 @media screen and (width > 69em) {
   header .site-nav ~ .hero:before {

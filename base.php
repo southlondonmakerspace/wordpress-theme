@@ -59,27 +59,36 @@
 					</details>
 				</nav>
 			<?php endif; ?>
-			<?php if ( is_front_page() ) : ?>
+			<?php // What fills the hero at the top of the page, chosen in the editor (see inc/hero.php) ?>
+			<?php $hero = slms_hero(); ?>
+			<?php if ( 'map' === $hero ) : ?>
 				<div class="hero" id="map">
 					<?php // Its credit, which OpenStreetMap's licence asks to be shown when the map loads: open, then closed after a few seconds (see main.js) ?>
 					<?php slms_hero_caption( 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, map tiles by <a href="https://protomaps.com">Protomaps</a>', 'Map credits', 'copyright', true ); ?>
 				</div>
-			<?php elseif ( slms_has_featured_image() ) : ?>
+			<?php elseif ( 'embed' === $hero ) : ?>
+				<div class="hero hero--embed"><?php echo slms_hero_embed( get_queried_object_id() ) ?></div>
+			<?php elseif ( 'gallery' === $hero ) : ?>
+				<?php
+					// A row of images to swipe or scroll through, one at a time.
+					// gallery.js adds arrows and dots beside the caption's button,
+					// which shows each image's caption, and turns it by itself.
+					$gallery  = slms_hero_gallery( get_queried_object_id() );
+					$captions = array_map( 'wp_get_attachment_caption', $gallery );
+				?>
+				<div class="hero hero--gallery" role="region" aria-roledescription="carousel" aria-label="Gallery" data-seconds="<?php echo esc_attr( slms_hero_seconds( get_queried_object_id() ) ) ?>">
+					<ul tabindex="0" aria-label="Images">
+						<?php foreach ( $gallery as $i => $image ) : ?>
+							<li data-caption="<?php echo esc_attr( $captions[ $i ] ) ?>"><?php echo slms_hero_image( $image, $i ? array() : array( 'loading' => false, 'fetchpriority' => 'high' ) ) ?></li>
+						<?php endforeach ?>
+					</ul>
+					<?php if ( array_filter( $captions ) ) : ?>
+						<?php slms_hero_caption( esc_html( $captions[0] ), 'Image caption', 'camera' ); ?>
+					<?php endif; ?>
+				</div>
+			<?php elseif ( 'featured' === $hero ) : ?>
 				<figure class="hero">
-					<?php
-						// The largest of the hero's sizes the image has at the hero's
-						// shape (see image_sizes() in functions.php), the others in its
-						// srcset. WordPress doesn't enlarge, so from a smaller upload
-						// the larger sizes come out narrower than that shape.
-						// Phones and wide screens crop its sides, so it's shown at
-						// least as wide as the hero is tall at its shape (2560 × 1100):
-						// 324px tall on narrow screens, 720px on wide ones.
-						$sizes = wp_get_attachment_metadata( get_post_thumbnail_id( get_queried_object_id() ) )['sizes'] ?? array();
-						$band  = current( array_filter( array( 'slms-band-2560', 'slms-band-1920', 'slms-band-1280', 'slms-band-768' ), function ( $size ) use ( $sizes ) {
-							return isset( $sizes[ $size ] ) && abs( $sizes[ $size ]['width'] / $sizes[ $size ]['height'] - 2560 / 1100 ) < .01;
-						} ) ) ?: 'full';
-						echo get_the_post_thumbnail( get_queried_object_id(), $band, array( 'sizes' => '(max-width: 69em) max(100vw, 755px), max(100vw, 1676px)', 'loading' => false, 'fetchpriority' => 'high' ) );
-					?>
+					<?php echo slms_hero_image( get_post_thumbnail_id( get_queried_object_id() ), array( 'loading' => false, 'fetchpriority' => 'high' ) ) ?>
 					<?php if ( $caption = get_the_post_thumbnail_caption( get_queried_object_id() ) ) : ?>
 						<?php slms_hero_caption( nl2br( esc_html( $caption ) ), 'Image caption', 'camera' ); ?>
 					<?php endif; ?>

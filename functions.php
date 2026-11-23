@@ -6,6 +6,7 @@
 	define( 'SLMS_FORUM_URL', 'https://discourse.southlondonmakerspace.org/' );
 
 	require SLMS_THEME_DIR . '/inc/template.php';
+	require SLMS_THEME_DIR . '/inc/hero.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-blog.php';
 	require SLMS_THEME_DIR . '/inc/event-text.php';
 	require SLMS_THEME_DIR . '/inc/widget-slms-events.php';
@@ -150,8 +151,8 @@
 			}
 
 			public function enqueue_styles() {
-				// The map is only on the front page (see base.php)
-				if ( is_front_page() ) {
+				// Only on pages with the map in their hero (see base.php)
+				if ( 'map' === slms_hero() ) {
 					wp_enqueue_style( 'maplibre-gl', SLMS_STATIC_URI . '/vendor/maplibre-gl/maplibre-gl.css', array(), self::MAPLIBRE_VERSION );
 				}
 
@@ -174,8 +175,14 @@
 					wp_localize_script( 'slms_menu', 'slmsMenu', array( 'chevron' => slms_icon( 'chevron-down', '.75em' ) ) );
 				}
 
-				// main.js is the front page's map, so only there (see base.php)
-				if ( ! is_front_page() ) {
+				// The hero's gallery: its arrows, dots and turning (see base.php)
+				if ( 'gallery' === slms_hero() ) {
+					wp_enqueue_script( 'slms_gallery', SLMS_STATIC_URI . '/js/gallery.js', array(), $this->asset_version( 'static/js/gallery.js' ), $defer );
+					wp_localize_script( 'slms_gallery', 'slmsGallery', array( 'icons' => array( 'previous' => slms_icon( 'chevron-left' ), 'next' => slms_icon( 'chevron-right' ), 'pause' => slms_icon( 'pause' ), 'play' => slms_icon( 'play' ) ) ) );
+				}
+
+				// main.js is the hero's map, so only on pages with it (see base.php)
+				if ( 'map' !== slms_hero() ) {
 					return;
 				}
 
@@ -230,9 +237,9 @@
 				remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 			}
 
-			// Lets the stylesheet lay out posts and pages that have a featured image
+			// Lets the stylesheet lay out posts and pages with a hero (see slms_hero())
 			public function body_class( $classes ) {
-				if ( slms_has_featured_image() ) {
+				if ( '' !== slms_hero() ) {
 					$classes[] = 'has-featured-image';
 				}
 
@@ -287,6 +294,8 @@ function slms_icon( $name, $size = '1.25em' ) {
 	static $icons = array(
 		'bars'            => array( '0 0 448 512', 'M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z' ),
 		'basket-shopping' => array( '0 0 576 512', 'M288 0c6.6 0 12.9 2.7 17.4 7.5l144 152 .5 .5 78.1 0c17.7 0 32 14.3 32 32 0 14.5-9.6 26.7-22.8 30.7L491.1 429.9c-6.5 29.3-32.5 50.1-62.5 50.1l-281.3 0c-30 0-56-20.8-62.5-50.1l-46-207.2c-13.2-3.9-22.8-16.2-22.8-30.7 0-17.7 14.3-32 32-32l78.1 0 .5-.5 144-152C275.1 2.7 281.4 0 288 0zm0 58.9L192.2 160 383.8 160 288 58.9zM208 264c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112zm80-24c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm128 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112z' ),
+		'chevron-left'    => array( '0 0 320 512', 'M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z' ),
+		'chevron-right'   => array( '0 0 320 512', 'M311.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L243.2 256 73.9 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z' ),
 		'chevron-down'    => array( '0 0 448 512', 'M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z' ),
 		'camera'          => array( '0 0 512 512', 'M193.1 32c-18.7 0-36.2 9.4-46.6 24.9L120.5 96 64 96C28.7 96 0 124.7 0 160L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-256c0-35.3-28.7-64-64-64l-56.5 0-26-39.1C355.1 41.4 337.6 32 318.9 32L193.1 32zm-6.7 51.6c1.5-2.2 4-3.6 6.7-3.6l125.7 0c2.7 0 5.2 1.3 6.7 3.6l33.2 49.8c4.5 6.7 11.9 10.7 20 10.7l69.3 0c8.8 0 16 7.2 16 16l0 256c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l69.3 0c8 0 15.5-4 20-10.7l33.2-49.8zM256 384a112 112 0 1 0 0-224 112 112 0 1 0 0 224zM192 272a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z' ), // Regular
 		'copyright'       => array( '0 0 512 512', 'M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM205.1 306.9c-28.1-28.1-28.1-73.7 0-101.8s73.7-28.1 101.8 0c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9c-46.9-46.9-122.8-46.9-169.7 0s-46.9 122.8 0 169.7 122.8 46.9 169.7 0c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0c-28.1 28.1-73.7 28.1-101.8 0z' ), // Regular
@@ -294,6 +303,8 @@ function slms_icon( $name, $size = '1.25em' ) {
 		'facebook'        => array( '0 0 512 512', 'M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5l0-170.3-52.8 0 0-78.2 52.8 0 0-33.7c0-87.1 39.4-127.5 125-127.5 16.2 0 44.2 3.2 55.7 6.4l0 70.8c-6-.6-16.5-1-29.6-1-42 0-58.2 15.9-58.2 57.2l0 27.8 83.6 0-14.4 78.2-69.3 0 0 175.9C413.8 494.8 512 386.9 512 256z' ),
 		'instagram'       => array( '0 0 448 512', 'M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z' ),
 		'minus'           => array( '0 0 448 512', 'M0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32z' ),
+		'pause'           => array( '0 0 384 512', 'M48 32C21.5 32 0 53.5 0 80L0 432c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48L48 32zm224 0c-26.5 0-48 21.5-48 48l0 352c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48l-64 0z' ),
+		'play'            => array( '0 0 448 512', 'M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z' ),
 		'plus'            => array( '0 0 448 512', 'M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z' ),
 	);
 
@@ -344,15 +355,6 @@ function slms_hero_caption( $html, $label = '', $icon = '', $open = false ) {
 			. '</summary>' . $text . '</details>';
 	}
 	echo '<figcaption>' . $text . '</figcaption>';
-}
-
-/**
- * Whether the page has a full-width hero at the top (see base.php): the map
- * on the front page, or a single post or page's featured image.
- */
-function slms_has_featured_image() {
-	// Not products, whose images are in WooCommerce's gallery
-	return is_front_page() || ( is_singular() && ! is_singular( 'product' ) && has_post_thumbnail( get_queried_object_id() ) );
 }
 
 /**

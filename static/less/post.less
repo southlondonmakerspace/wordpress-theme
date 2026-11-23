@@ -37,8 +37,8 @@ header .hero {
 		object-fit: cover;
 	}
 
-	// Parallax: over the first screen of scrolling the image, or the front
-	// page's map, moves down by half as much, so it scrolls away at half
+	// Parallax: over the first screen of scrolling the image, map or embed
+	// moves down by half as much, so it scrolls away at half
 	// speed. The map's canvas container holds its pin and popup too, so they
 	// move with it; its zoom buttons stay put. CSS only, in browsers with
 	// scroll-driven animations; others, and anyone who has asked for reduced
@@ -46,12 +46,73 @@ header .hero {
 	@supports (animation-timeline: scroll()) {
 		@media (prefers-reduced-motion: no-preference) {
 			img,
-			.maplibregl-canvas-container {
+			.maplibregl-canvas-container,
+			&.hero--embed iframe {
 				animation: hero-parallax linear both;
 				animation-timeline: scroll(root);
 				animation-range: 0 100vh;
 			}
 		}
+	}
+
+	// An embed (see slms_hero_embed()), such as a video or a tour: it fills
+	// the hero, running under the card as an image does. Dark behind, like a
+	// player, so the menu shows while it loads.
+	&.hero--embed {
+		background: #000;
+	}
+
+	&.hero--embed iframe {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	// A gallery: its images in a row, each the hero's width, to swipe or scroll
+	// through, snapping to each in turn. Its arrows and dots are in the
+	// caption (see gallery.js).
+	&.hero--gallery ul {
+		display: flex;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+
+		li {
+			flex: 0 0 100%;
+			scroll-snap-align: center;
+		}
+	}
+
+	// Its images' focus ring, for scrolling them with the keyboard, drawn
+	// inside the hero and above the card, as the hero would clip the images'
+	// own and the card would cover its foot. White with a dark edge, so it
+	// shows on any photo.
+	&.hero--gallery ul:focus-visible {
+		outline: none;
+	}
+
+	&.hero--gallery:has(ul:focus-visible):after {
+		content: '';
+		position: absolute;
+		z-index: 2;
+		inset: 0 0 @card_overlap_phone 0;
+		box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 5px rgba(0, 0, 0, .6);
+		pointer-events: none;
+
+		@media screen and @above_desk {
+			bottom: @card_overlap;
+		}
+	}
+
+	// Its captions, as text, keep their line breaks
+	&.hero--gallery figcaption details span {
+		white-space: pre-line;
 	}
 
 	@rcard_left: unit(@card_left, rem);
@@ -87,14 +148,16 @@ header .hero {
 
 		summary,
 		span,
-		.zoom button {
+		.zoom button,
+		.arrows > button {
 			background: rgba(0, 0, 0, .55);
 			backdrop-filter: blur(6px);
 			border-radius: var(--radius);
 		}
 
 		summary,
-		.zoom button {
+		.zoom button,
+		.arrows > button {
 			display: flex;
 			padding: .4em;
 		}
@@ -107,26 +170,71 @@ header .hero {
 		// line between: only beside the menu's links, not under the menu
 		// button. Narrower screens zoom by pinching or double-tapping instead.
 		.zoom {
-			display: flex;
-			gap: 1px;
-
 			@media screen and @to_desk {
 				display: none;
 			}
+		}
 
-			button {
+		// The gallery's pause button, then its arrows either side of its dots
+		// (see gallery.js), joined the same way, on every screen
+		.zoom,
+		.arrows {
+			display: flex;
+			gap: 1px;
+
+			> button {
 				border: 0;
-				border-radius: var(--radius) 0 0 var(--radius);
+				border-radius: 0;
 				color: inherit;
 				cursor: pointer;
 
-				& + button {
+				&:first-child {
+					border-radius: var(--radius) 0 0 var(--radius);
+				}
+
+				&:last-child {
 					border-radius: 0 var(--radius) var(--radius) 0;
 				}
 
 				&:disabled {
 					opacity: .4;
 					cursor: default;
+				}
+			}
+		}
+
+		// The gallery's dots, one for each image, the one showing longer and
+		// in white: each at least 24px wide and the buttons' height, so easy
+		// to tap, as WCAG asks
+		.dots {
+			display: flex;
+			padding: 0 .2em;
+			background: rgba(0, 0, 0, .55);
+			backdrop-filter: blur(6px);
+
+			button {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-width: 24px;
+				height: 2.05em;
+				padding: 0;
+				border: 0;
+				background: none;
+				cursor: pointer;
+
+				&:before {
+					content: '';
+					width: .5em;
+					height: .5em;
+					border-radius: 50%;
+					background: rgba(255, 255, 255, .5);
+				}
+
+				&[aria-current="true"]:before {
+					width: 1.1em;
+					border-radius: .25em;
+					background: #fff;
 				}
 			}
 		}
@@ -195,6 +303,12 @@ header .hero {
 // other buttons' icons, so a little smaller, in the same size button
 #map figcaption summary .icon {
 	scale: .85;
+}
+
+// The gallery's icons, its caption's camera too, all a little smaller, in
+// the same size buttons
+.hero--gallery figcaption .icon {
+	scale: .7;
 }
 
 // A blurred fade down from the top of the hero, behind the menu's links, in

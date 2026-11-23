@@ -33,6 +33,21 @@ It sets the version in `style.css`, `package.json` and this README, commits that
 
 Upload that zip in WordPress under Appearance → Themes → Add New Theme → Upload Theme, or unzip it into `wp-content/themes/` on the server.
 
+### Hero
+
+The hero is the full-width area at the top of a post or page, which the page's card overlaps. Choose what fills it in the **Hero** box in the editor's sidebar:
+
+| Choice | What it shows |
+|---|---|
+| Featured image | The post or page's featured image, with its caption (see below). The default. |
+| Map | The front page's map, with its pin and credits (see Front-page map). The front page's default. |
+| Embed | A YouTube or Vimeo address, or any other address in an iframe, such as a Matterport tour. Paste the address or the site's iframe code; only its address is kept. |
+| Gallery | Images chosen from the media library, one at a time, with pause, previous, next and a dot for each. It moves on every 4 seconds, or the seconds set under Seconds per image, unless the visitor has asked for reduced motion. It stops once someone pauses it or moves it themselves. The camera button shows each image's caption. |
+
+A choice with nothing to show, such as an embed with no address, falls back to the featured image. Pages without one have no hero. Products never have one, as their images are in WooCommerce's gallery. The code is in `inc/hero.php`, and the gallery's controls in `static/js/gallery.js`.
+
+YouTube, Vimeo and the other sites WordPress knows use their own player. WordPress can ask other sites how to embed them, but it locks down what they return, which stops tours working, so the theme puts their address in a plain iframe instead.
+
 ### Featured images
 
 A post or page's featured image fills the hero at the top of the page. Upload a landscape photo of **2560 × 1100 pixels** (about 2.3:1), as a JPEG at about 80% quality and under about 500 KB. Smaller images of the same shape work too, such as 2000 × 900, but are a little softer on high-density screens. WordPress scales anything wider than 2560 down.
