@@ -1,6 +1,6 @@
 {
   "name": "slms-theme",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "WordPress theme for South London Makerspace",
   "main": "functions.php",
   "scripts": {
