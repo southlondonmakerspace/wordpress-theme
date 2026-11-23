@@ -908,6 +908,9 @@ header .hero figcaption details[open] summary {
 .page .wrap > .post {
   margin-bottom: 4.5em;
 }
+.wrap > .post {
+  display: flow-root;
+}
 .post {
   margin-bottom: 1.5em;
 }

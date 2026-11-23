@@ -397,6 +397,13 @@ header .hero {
 	}
 }
 
+// A post or page's own article (not the Events widget's): an image floated
+// at the very end stays inside it, so the footer starts below it rather than
+// beside it
+.wrap > .post {
+	display: flow-root;
+}
+
 .post {
 	margin-bottom: 1.5em;
 
