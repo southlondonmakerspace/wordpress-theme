@@ -203,8 +203,8 @@
 				register_widget( 'slms_supporter' );
 			}
 
-			// The featured image in the band at the top of the page (see
-			// base.php), cropped from the middle to the band's shape, 2560 × 1100,
+			// The featured image in the hero at the top of the page (see
+			// base.php), cropped from the middle to the hero's shape, 2560 × 1100,
 			// in smaller copies for smaller screens. See the README for what to
 			// upload.
 			public function image_sizes() {
@@ -326,7 +326,7 @@ function slms_read_more() {
 }
 
 /**
- * A caption for the band at the top of the page (see header .hero in
+ * A caption for the hero at the top of the page (see header .hero in
  * post.less). With an icon, a button that shows the caption beside it when
  * pressed, so it doesn't cover the image; a <details>, so no JavaScript.
  * Without one, the caption alone, always shown.
@@ -347,7 +347,7 @@ function slms_hero_caption( $html, $label = '', $icon = '', $open = false ) {
 }
 
 /**
- * Whether the page has a full-width band at the top (see base.php): the map
+ * Whether the page has a full-width hero at the top (see base.php): the map
  * on the front page, or a single post or page's featured image.
  */
 function slms_has_featured_image() {

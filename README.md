@@ -35,15 +35,15 @@ Upload that zip in WordPress under Appearance → Themes → Add New Theme → U
 
 ### Featured images
 
-A post or page's featured image fills the band at the top of the page. Upload a landscape photo of **2560 × 1100 pixels** (about 2.3:1), as a JPEG at about 80% quality and under about 500 KB. Smaller images of the same shape work too, such as 2000 × 900, but are a little softer on high-density screens. WordPress scales anything wider than 2560 down.
+A post or page's featured image fills the hero at the top of the page. Upload a landscape photo of **2560 × 1100 pixels** (about 2.3:1), as a JPEG at about 80% quality and under about 500 KB. Smaller images of the same shape work too, such as 2000 × 900, but are a little softer on high-density screens. WordPress scales anything wider than 2560 down.
 
-The theme crops a copy from the middle of each upload to that shape, in four sizes, 2560, 1920, 1280 and 768 pixels wide, and the browser picks the one that suits the screen. The band shows more or less of it depending on the screen:
+The theme crops a copy from the middle of each upload to that shape, in four sizes, 2560, 1920, 1280 and 768 pixels wide, and the browser picks the one that suits the screen. The hero shows more or less of it depending on the screen:
 
 | Area | What's there | Roughly |
 |---|---|---|
 | Top | The menu and its darkening fade, on wide screens | top 25–30% |
 | Top left | The logo | a 90px square |
-| Bottom | The page's card, overlapping the band | bottom 15% |
+| Bottom | The page's card, overlapping the hero | bottom 15% |
 | Bottom right | The caption's button, if the image has a caption | a small corner |
 | Sides, on phones | Cropped off: phones show only a nearly square middle | the outer quarter each side |
 

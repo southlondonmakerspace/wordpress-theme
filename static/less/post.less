@@ -27,7 +27,7 @@ body:not(.home) header + .wrap {
 	}
 }
 
-// Featured images in the header band (see header .hero in main.less)
+// Featured images in the hero (see header .hero in main.less)
 header .hero {
 	img {
 		display: block;
@@ -42,7 +42,7 @@ header .hero {
 	// speed. The map's canvas container holds its pin and popup too, so they
 	// move with it; its zoom buttons stay put. CSS only, in browsers with
 	// scroll-driven animations; others, and anyone who has asked for reduced
-	// motion, get a still band.
+	// motion, get a still hero.
 	@supports (animation-timeline: scroll()) {
 		@media (prefers-reduced-motion: no-preference) {
 			img,
@@ -197,7 +197,7 @@ header .hero {
 	scale: .85;
 }
 
-// A blurred fade down from the top of the band, behind the menu's links, in
+// A blurred fade down from the top of the hero, behind the menu's links, in
 // --fade (see main.less). The mask fades the blur out with it. Wide screens
 // only: narrower ones have the menu button instead, with its own backing.
 @media screen and @above_desk {
@@ -223,7 +223,7 @@ header .hero {
 	}
 }
 
-// How far the card overlaps the foot of the band
+// How far the card overlaps the foot of the hero
 @card_overlap_phone: 3em;
 @card_overlap: 6em;
 // On phones and tablets the logo sits in the page flow above the card, so

@@ -67,12 +67,12 @@
 			<?php elseif ( slms_has_featured_image() ) : ?>
 				<figure class="hero">
 					<?php
-						// The largest of the band's sizes the image has at the band's
+						// The largest of the hero's sizes the image has at the hero's
 						// shape (see image_sizes() in functions.php), the others in its
 						// srcset. WordPress doesn't enlarge, so from a smaller upload
 						// the larger sizes come out narrower than that shape.
 						// Phones and wide screens crop its sides, so it's shown at
-						// least as wide as the band is tall at its shape (2560 × 1100):
+						// least as wide as the hero is tall at its shape (2560 × 1100):
 						// 324px tall on narrow screens, 720px on wide ones.
 						$sizes = wp_get_attachment_metadata( get_post_thumbnail_id( get_queried_object_id() ) )['sizes'] ?? array();
 						$band  = current( array_filter( array( 'slms-band-2560', 'slms-band-1920', 'slms-band-1280', 'slms-band-768' ), function ( $size ) use ( $sizes ) {

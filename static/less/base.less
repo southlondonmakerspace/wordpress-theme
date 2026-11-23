@@ -94,7 +94,7 @@ body {
 	// after them. The first `content` is for browsers without alternative
 	// text for it.
 	@external: ~':is(main, footer, .hero) a[rel~="external"]:not(.btn, .button, :has(img, svg))';
-	@external_on_band: ~'.hero a[rel~="external"]:not(.btn, .button, :has(img, svg))';
+	@external_on_hero: ~'.hero a[rel~="external"]:not(.btn, .button, :has(img, svg))';
 
 	@{external}:after {
 		content: '';
@@ -104,7 +104,7 @@ body {
 		height: .7em;
 		margin-left: .25em;
 		// Grey, not the link's colour: the text colour, faded, as the .links
-		// dashes are. On the band's captions, their own white, faded.
+		// dashes are. On the hero's captions, their own white, faded.
 		background: var(--text);
 		opacity: .5;
 		// Font Awesome Free 7.3.1's arrow-up-right-from-square, CC BY 4.0
@@ -115,7 +115,7 @@ body {
 		content: '' / ' (external site, opens in a new tab)';
 	}
 
-	@{external_on_band}:after {
+	@{external_on_hero}:after {
 		background: currentColor;
 	}
 
