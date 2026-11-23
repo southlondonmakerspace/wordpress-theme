@@ -89,11 +89,12 @@ body {
 	}
 
 	// Links to other sites (see slms_external_links() in functions.php), but
-	// for buttons and links with their own icon or image, have a small arrow
-	// out of a box after them. The first `content` is for browsers without
-	// alternative text for it.
-	@external: ~':is(main, footer, .hero) a[rel~="external"]:not(.btn, :has(img, svg))';
-	@external_on_band: ~'.hero a[rel~="external"]:not(.btn, :has(img, svg))';
+	// for buttons, the theme's and WordPress's (such as the Maker ID login),
+	// and links with their own icon or image, have a small arrow out of a box
+	// after them. The first `content` is for browsers without alternative
+	// text for it.
+	@external: ~':is(main, footer, .hero) a[rel~="external"]:not(.btn, .button, :has(img, svg))';
+	@external_on_band: ~'.hero a[rel~="external"]:not(.btn, .button, :has(img, svg))';
 
 	@{external}:after {
 		content: '';
